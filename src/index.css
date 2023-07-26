@@ -1,13 +1,435 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  justify-content: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a svg {
+  color: black;
+}
+
+a svg:hover {
+  color: gray;
+}
+
+input {
+  border: 1px solid black;
+  padding: 1px;
+}
+
+input, label {
+  display: block;
+  margin-bottom: 3px;
+}
+
+input:focus {
+  outline: 1px solid black;
+}
+
+button {
+  color: white;
+  background-color: black;
+  border: none;
+  padding: 5px 8px;
+}
+
+button:disabled {
+  color: darkgray;
+  background-color: grey;
+}
+
+ul {
+  list-style: none;
+}
+
+.admin-container {
+  margin: 2rem;
+}
+
+.editor-area {
+  margin: 20px;
+}
+
+.editor-area label,
+.editor-area input {
+  display: inline;
+}
+
+.editor-area label {
+  font-weight: bold;
+}
+
+.editor-area input {
+  width: 100%;
+}
+
+.editor-form {
+  width: 1000px;
+}
+
+.editor-container {
+  border: 1px solid black;
+  border-radius: 5px;
+  /* width: 1000px;  */
+  position: relative;
+}
+
+@media (max-width: 1050px) {
+  .editor-form {
+    width: 90%;
+    min-width: 500px;
+  }
+}
+
+.editor-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  font-size: .8rem;
+  margin-bottom: 1rem;
+}
+
+.editor-info > :nth-child(1) {
+  grid-column: 1 / 3;
+}
+
+.editor-info > :nth-child(3) {
+  justify-content: flex-end;
+}
+
+.editor-info-item {
+  display: flex;
+  gap: 2px;
+}
+
+.editor-info-label {
+  font-weight: bold;
+}
+
+.editor-menu {
+  display: flex;
+  gap: 10px;
+  padding: 4px;
+  width: 100%;
+  background-color: black;
+}
+
+.editor-loading {
+  background-color: lightgrey;
+}
+
+.editor-menu-group {
+  display: flex;
+  gap:2px;
+}
+
+.editor-menu-bottom {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.editor-menu button {
+  border: 2px solid white;
+}
+
+.editor-menu button:hover {
+  outline: 1px solid white;
+}
+
+.editor-menu button:active {
+  outline-width: 2px;
+}
+
+.editor-menu-active {
+  background-color: white;
+  color: black;
+}
+
+.error-list {
+  list-style: none;
+  color: red;
+  font-size: .75rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.form-submit-right {
+  display: flex;
+  gap: 3px;
+  justify-content: end;
+  margin-top: 1rem;
+}
+
+.form-submit-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 1rem;
+}
+
+.form-next-to {
+  display: flex;
+  gap: 1rem;
+}
+
+.gap-min {
+  gap: 5px;
+}
+
+#height, #width {
+  width: 60px;
+}
+
+.blog-area {
+  border: 3px dashed gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px 0 20px;
+}
+
+.header-logo {
+  color: black;
+  text-decoration: none;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-form {
+  display: flex;
+  gap: 3px;
+}
+
+.login-form label,
+.login-area p {
+  font-size: .75rem;
+}
+
+.login-form button {
+  align-self: end;
+}
+
+.modal-container {
+  position: relative;
+  width: min-content;
+  height: min-content;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 2px solid grey;
+}
+
+.modal-container-close {
+  display: flex;
+  justify-content: end;
+  padding:1px 4px 4px 4px;
+}
+
+.modal-container-close svg {
+  cursor:pointer;
+}
+
+.modal-container-content {
+  padding: 0 1rem 1rem 1rem;
+  min-width: 250px;
+  min-height: 75px;
+}
+
+.modal-content button:disabled {
+  color: darkgray;
+  background-color: grey;
+}
+
+.modal-content input {
+  width: 250px;
+}
+
+.modal-frame {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.paginator-area {
+  outline: 1px solid black;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* min-width: 500px; */
+  min-height: 325px;
+}
+
+.paginator-list {
+  display: grid;
+  grid-template-columns:  1fr 1fr 1fr min-content;
+}
+
+.paginator-list div {
+  padding: .5rem;
+}
+
+.paginator-list > div:nth-child(8n + 5),
+.paginator-list > div:nth-child(8n + 6),
+.paginator-list > div:nth-child(8n + 7),
+.paginator-list > div:nth-child(8n + 8) {
+  background-color: lightgray;
+}
+
+.paginator-list svg {
+  cursor: pointer;
+}
+
+.paginator-index {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.paginator-index > div {
+  width: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.paginator-index > div > button {
+  background-color: transparent;
+  color: black;
+}
+
+.paginator-index > div > button.link-to {
+  color: gray;
+}
+
+/* .paginator-index > div:nth-child(odd) {
+  background-color: lightgray;
+} */
+
+.paginator-area ul {
+  list-style-type: none;
+  outline: 1px solid black;
+}
+
+.paginator-area li {
+  display: flex;
+}
+
+.paginator-area li:nth-child(even) {
+  background-color: lightgray;
+}
+
+.ProseMirror {
+  height: 15rem;
+  overflow: scroll;
+  position: relative;
+  word-wrap: break-word;
+  white-space: break-spaces;
+  resize: vertical;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror ul, ol {
+  padding: 0 1rem;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+}
+
+.register-area,
+.update-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.register-form,
+.update-form,
+.update-sub-form {
+  padding: 5px 25px 25px 25px;
+  border: 1px solid black;
+}
+
+.loadingSpinnerContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: #000 transparent #555 transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.update-sub-form {
+  margin: 5px;
+}
+
+.register-form button {
+  display: block;
+  margin-left: auto;  
 }
