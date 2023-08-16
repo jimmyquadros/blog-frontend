@@ -6,8 +6,10 @@ import Header from './components/Header';
 import Blog from './components/Blog';
 import Profile from './components/Profile';
 import Admin from './components/Admin';
-import PostEditor from './components/PostEditor';
+import PostEditor from './components/editor/PostEditor';
 import RequireAuth from './components/RequireAuth';
+
+import BlogPost from './components/BlogPost';
 
 function App() {
   
@@ -27,6 +29,8 @@ function App() {
             <Route path="/admin" element={<Admin />}/>
             <Route path="/editor" element={<PostEditor />} />
           </Route>
+
+          <Route path='/:id/:title?' element={<BlogPost />} />
           
         </Route>
       </Routes>

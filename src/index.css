@@ -59,12 +59,103 @@ button:disabled {
   background-color: grey;
 }
 
+p {
+  margin: 1rem 0;
+}
+
 ul {
   list-style: none;
 }
 
 .admin-container {
   margin: 2rem;
+}
+
+.blog-area {
+  height: 100%;
+}
+
+.blog-area>ul {
+  margin: 3rem 20%;
+}
+
+.blog-area a {
+  color: black;
+}
+
+.blog-area a:hover {
+  color: gray;
+}
+
+.btn-right {
+  align-self: end;
+}
+
+.no-deco {
+  text-decoration: none !important;
+}
+
+.blog-info {
+  display: flex;
+  gap: .5rem;
+  margin-left: .5rem;
+}
+
+.blog-loader {
+  display: flex;
+  justify-content: center;
+}
+
+.blog-post-area {
+  margin: 3rem 20%;
+}
+
+.blog-prev{
+  margin: .5rem 1rem;
+}
+
+.comment-container>ul {
+  border-top: 2px solid black;
+  margin-top: 2rem;
+}
+
+.comment-content,
+.comment-control{
+  padding-left: .5rem;
+}
+
+.comment-control,
+.comment-control-user {
+  display: flex;
+  gap: 3px;
+}
+
+.comment-date {
+  font-style:italic;
+  font-size: .75rem;
+}
+
+.comment-deleted {
+  color: gray;
+}
+
+.comment-divider {
+  border-bottom: 1px solid lightgray;
+  margin: 1rem 2rem .5rem 2rem;
+}
+
+.comment-login {
+  margin-left: 1rem;
+}
+
+.comment-login h2 {
+  margin-bottom: 1rem;
+}
+
+.comment-reply-wrap {
+  border-left: 1px solid black;
+  margin-left: 1rem;
+  padding-left: 1rem;
 }
 
 .editor-area {
@@ -88,10 +179,32 @@ ul {
   width: 1000px;
 }
 
+/* .editor-comment-box>.ProseMirror {
+  height: 200px;
+} */
+
+.editor-comment {
+  height: 200px;
+}
+
+.thick-break {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid black;
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+.editor-comment-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
 .editor-container {
   border: 1px solid black;
   border-radius: 5px;
-  /* width: 1000px;  */
+  margin: .5rem 0;
   position: relative;
 }
 
@@ -166,6 +279,25 @@ ul {
   color: black;
 }
 
+.editor-msg-err {
+  color: red;
+}
+
+.editor-msg-ok {
+  color: gray;
+}
+
+.editor-post {
+  height: 15rem;
+}
+
+.error-area {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .error-list {
   list-style: none;
   color: red;
@@ -179,7 +311,7 @@ ul {
 .form-submit-right {
   display: flex;
   gap: 3px;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 1rem;
 }
 
@@ -195,20 +327,16 @@ ul {
   gap: 1rem;
 }
 
+.full-height {
+  height: 100%;
+}
+
 .gap-min {
   gap: 5px;
 }
 
 #height, #width {
   width: 60px;
-}
-
-.blog-area {
-  border: 3px dashed gray;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
 }
 
 .header {
@@ -256,7 +384,7 @@ ul {
 
 .modal-container-close {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding:1px 4px 4px 4px;
 }
 
@@ -358,7 +486,7 @@ ul {
 }
 
 .ProseMirror {
-  height: 15rem;
+  /* height: 15rem; */
   overflow: scroll;
   position: relative;
   word-wrap: break-word;
@@ -432,4 +560,11 @@ ul {
 .register-form button {
   display: block;
   margin-left: auto;  
+}
+
+.spin-box {
+  position: relative;
+  height: 64px;
+  display: flex;
+  justify-content: center;
 }

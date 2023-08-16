@@ -35,8 +35,6 @@ const Login = () => {
             const accessToken = response?.data.token;
             const { roles, username } = jwt_decode(accessToken);
             await setAuth({ username, roles, accessToken})
-            navigate('/', {replace: true});
-            
 
         } catch (err) {
             if (err.response.status !== 401) console.log('Login Error: ', err.response.status);

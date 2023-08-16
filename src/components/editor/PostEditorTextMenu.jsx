@@ -1,20 +1,9 @@
-import { useCallback } from 'react';
-import AddMedia from './AddMedia';
-import AddImage from './AddImage';
-
+import AddMedia from './modals/AddMedia';
+import AddImage from './modals/AddImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faUnderline, faList, faListOl, faImage } from '@fortawesome/free-solid-svg-icons';
 
-const PostEditorTextMenu = ({ editor, loading, setImageModal, setYouTubeModal }) => {
-    
-    const addImage = useCallback(() => {
-        const url = window.prompt('URL');
-
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run()
-        }
-    }, [editor])
-    
+const PostEditorTextMenu = ({ editor, loading, modalClose, modalSet }) => {
     if (!editor) {
         return null;
     };
@@ -92,10 +81,10 @@ const PostEditorTextMenu = ({ editor, loading, setImageModal, setYouTubeModal })
             </button>
           </div>
           <div className='editor-menu-group'>
-            <button disabled={loading} onClick={(e) => {e.preventDefault(); setImageModal()}}>
+            <button type='button' disabled={loading} onClick={(e) => modalSet(<AddImage editor={editor} close={modalClose} />)}>
                 <FontAwesomeIcon icon={faImage}/>
             </button>
-            <button  disabled={loading} onClick={ (e) => {e.preventDefault(); setYouTubeModal()}}>
+            <button type='button' disabled={loading} onClick={ (e) => modalSet(<AddMedia editor={editor} close={modalClose} />)}>
                 YouTube
             </button>
           </div>

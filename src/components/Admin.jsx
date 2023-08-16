@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PostEditor from './PostEditor';
+import PostEditor from './editor/PostEditor';
 import Paginator from './Paginator';
 
 const Admin = () => {
