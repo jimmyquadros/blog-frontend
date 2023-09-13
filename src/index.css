@@ -87,6 +87,12 @@ ul {
   color: gray;
 }
 
+.blog-header {
+  margin: 1rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid black;
+}
+
 .btn-right {
   align-self: end;
 }
@@ -124,8 +130,7 @@ ul {
   padding-left: .5rem;
 }
 
-.comment-control,
-.comment-control-user {
+.comment-control {
   display: flex;
   gap: 3px;
 }
@@ -133,6 +138,22 @@ ul {
 .comment-date {
   font-style:italic;
   font-size: .75rem;
+}
+
+.comment-delete {
+  outline: 2px dashed red;
+  padding: 1rem;
+  display: flex;
+  gap: 3px;
+}
+
+.comment-delete-admin {
+  margin-left: auto;
+  background-color: darkred;
+}
+
+.comment-delete>p {
+  margin: 0;
 }
 
 .comment-deleted {
@@ -357,6 +378,11 @@ ul {
   gap: 5px;
 }
 
+.login-col {
+  display: flex;
+  flex-direction: column;
+}
+
 .login-form {
   display: flex;
   gap: 3px;
@@ -365,6 +391,10 @@ ul {
 .login-form label,
 .login-area p {
   font-size: .75rem;
+}
+
+.login-area p {
+  margin: 0;
 }
 
 .login-form button {
@@ -519,6 +549,16 @@ ul {
 .update-sub-form {
   padding: 5px 25px 25px 25px;
   border: 1px solid black;
+}
+
+.register-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-success h2 {
+  margin-top: 2rem;
 }
 
 .loadingSpinnerContainer {

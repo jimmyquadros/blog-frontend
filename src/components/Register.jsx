@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from '../api/axios';
+import Login from './Login';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -19,7 +20,7 @@ const Register = () => {
     const [validConf, setValidConf] = useState(false);
 
     const [errMsg, setErrMsg] = useState([]);
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState(null);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -57,13 +58,13 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post(REGISTER_URL,
+            await axios.post(REGISTER_URL,
                 JSON.stringify({name: username, email, password}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                 }
             );
-            setSuccess(true);
+            setSuccess(email);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -78,12 +79,13 @@ const Register = () => {
     return (
         <>
             { success ? (
-                <section>
-                    <h1>Success</h1>
-                    <p>
-                        <a href="#">Sign In</a>
-                    </p>
-                </section>
+                <div className='register-success'>
+                    <div>
+                        <h1>Success</h1>
+                        <h2>Login</h2>
+                        <Login addEmail={success}/>
+                    </div>
+                </div>
             ) :(
                 <>
                     <section className="register-area">

@@ -33,6 +33,8 @@ const PostEditor = () => {
             ImageResize,
             Youtube.configure({
                 controls: false,
+                enableIFrameApi: 'true',
+                origin: 'http://localhost:3000'
             }),
         ],
         content: post ? post.draft : 'This is where we write things...',
@@ -84,6 +86,7 @@ const PostEditor = () => {
     const handlePublish = () => {
         if (title === '') return setMsg((<li key={'err0'} className='editor-msg-err'>Post requires a title.</li>))
         const content = editor.getHTML();
+        // console.log(content);
         return handleSaveRequest({ title, draft: content, pub: content });
     }
 

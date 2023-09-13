@@ -1,27 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { DateTime } from 'luxon';
 import axios from '../api/axios'
-import UseAuth from '../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import ReactTimeAgo from 'react-time-ago';
-import parse from 'html-react-parser';
-import { compile, convert } from 'html-to-text';
+import { convert } from 'html-to-text';
 
 
 const Blog = () => {
-    const LIMIT = 5;
+    const LIMIT = 10;
     const MAX_PREV_CHAR = 450;
-    const { auth } = UseAuth();
     const [content, setContent] = useState([]);
-    const [endContent, setEndContent] = useState(false);
     const [loadMore, setLoadMore] = useState();
 
-    useEffect(() => {
-        getContent(0);
-    }, []);
-
+   
     const getPreview = (post) => {
         const start = /<p>/.exec(post);
         const end = /<\/p>/.exec(post);
@@ -43,7 +35,7 @@ const Blog = () => {
     }
 
 
-    const getContent = async (page) => {
+    const getContent = useCallback(async (page) => {
         try {
             const response = await axios.get(`/post/?page=${page}&&limit=${LIMIT}`);
             const data = response.data;
@@ -84,7 +76,13 @@ const Blog = () => {
         } catch (err) {
             console.error(err);
         }
-    }
+    }, [])
+
+    useEffect(() => {
+        getContent(0);
+    }, [getContent]);
+
+
     return (
         <div className='blog-area'>
             <ul>

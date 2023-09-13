@@ -1,0 +1,17 @@
+see all posts
+    -- Front page
+        -- register requirements?
+    -- Back end
+        -- sanitize comments
+        -- User delete route
+        -- Should login be done through user routes?
+
+---
+
+Stretchy:
+
+make for uploadable images
+
+make images drag-resizable
+
+infinite scroll?

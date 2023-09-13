@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
@@ -7,18 +7,22 @@ import useInput from '../hooks/useInput';
 
 const LOGIN_URL = '/user/login';
 
-const Login = () => {
+const Login = ({addEmail}) => {
     const { setAuth } = useAuth();
 
-    const [email, resetEmail, emailAttribs] = useInput('email', '');
+    const [email, setEmail, emailAttribs] = useInput('email', '');
     const [password, setPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const toggleLoading = () => {
         setIsLoading((prevState) => !prevState);
     }
+
+    useEffect(() => {
+        if (addEmail) {
+            setEmail(addEmail)}
+    }, [addEmail, setEmail])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,7 +50,7 @@ const Login = () => {
     return (
         <>
             <section className='login-area'>
-                <form className='login-form' onSubmit={handleSubmit}>
+                <form className={addEmail ? 'login-form login-col' : 'login-form'} onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor='email'>Email</label>
                         <input 
@@ -71,10 +75,12 @@ const Login = () => {
                     </div>
                     <button disabled={isLoading}>Log In</button>
                 </form>
-                <p>
-                    New user? &nbsp;
-                    <Link to='/register'>Sign Up</Link>
-                </p>
+                {(!addEmail) && (
+                    <p>
+                        New user? &nbsp;
+                        <Link to='/register'>Sign Up</Link>
+                    </p>
+                )}
                 <ul className='error-list'>
                     {errorMsg.map((e, i) => (<li key={i}>{e}</li>))}
                 </ul>
