@@ -4,8 +4,6 @@ import Delete from './modals/Delete';
 import Publish from './modals/Publish';
 import Revert from './modals/Revert';
 import Spinner from '../Spinner';
-import { saveRequest } from '../../api/postRequest.js';
-
 
 const PostEditorSaveMenu = ({ clear, deletePost, editor, loading, post, publish, save, unpub, modal }) => {
 

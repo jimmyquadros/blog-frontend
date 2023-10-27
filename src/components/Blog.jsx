@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import axios from '../api/axios'
+// import axios from '../api/axios'
+import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import ReactTimeAgo from 'react-time-ago';
@@ -13,6 +14,7 @@ const Blog = () => {
     const [content, setContent] = useState([]);
     const [loadMore, setLoadMore] = useState();
 
+    const axiosPrivate = useAxiosPrivate();
    
     const getPreview = (post) => {
         const start = /<p>/.exec(post);
@@ -37,7 +39,11 @@ const Blog = () => {
 
     const getContent = useCallback(async (page) => {
         try {
-            const response = await axios.get(`/post/?page=${page}&&limit=${LIMIT}`);
+            // const response = await axios.get(`/post/?page=${page}&&limit=${LIMIT}`);
+            const controller = new AbortController();
+            const response = await axiosPrivate.get(`/post/?page=${page}&&limit=${LIMIT}`, {
+                signal: controller.signal
+            });
             const data = response.data;
             getPreview(data.posts[0].pub);
             const section = data.posts.map((post, i) => 
@@ -76,7 +82,7 @@ const Blog = () => {
         } catch (err) {
             console.error(err);
         }
-    }, [])
+    }, [axiosPrivate])
 
     useEffect(() => {
         getContent(0);

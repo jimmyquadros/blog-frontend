@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from '../api/axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import jwt_decode from 'jwt-decode';
@@ -16,13 +15,13 @@ const Profile = () => {
     const axiosPrivate = useAxiosPrivate();
 
     const [username, setUsername] = useState(auth?.username);
-    const [validUser, setValidUser] = useState(false);
+    // const [validUser, setValidUser] = useState(false);
 
     const [password, setPassword] = useState('');
-    const [validPass, setValidPass] = useState(false);
+    // const [validPass, setValidPass] = useState(false);
 
     const [confPass, setConfPass] = useState('');
-    const [validConf, setValidConf] = useState(false);
+    // const [validConf, setValidConf] = useState(false);
 
     const [errMsg, setErrMsg] = useState([]);
     const [success, setSuccess] = useState(false);

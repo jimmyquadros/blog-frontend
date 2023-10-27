@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 
 const Modal = ({ content, close }) => {
-    const [modal, setModal] = useState();
 
     return !content ? (<></>) : ( 
         <div className='modal-frame' onClick={close}>

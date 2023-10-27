@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from '../api/axios';
 import Login from './Login';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -9,6 +11,7 @@ const REGISTER_URL = '/user'
 const Register = () => {
 
     const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
 
     const [username, setUsername] = useState('');
     const [validUser, setValidUser] = useState(false);
@@ -29,13 +32,11 @@ const Register = () => {
     };
 
     useEffect(() => {
+        setValidEmail(email.length);
         setValidUser(USER_REGEX.test(username));
-    }, [username]);
-
-    useEffect(() => {
         setValidPass(PWD_REGEX.test(password));
-        setValidConf(password === confPass);
-    }, [password, confPass]);
+        setValidConf(password === confPass && password.length);
+    }, [email, username, password, confPass]);
 
     useEffect(() => {
         setErrMsg([]);
@@ -140,7 +141,27 @@ const Register = () => {
                                 Sign Up
                             </button>
                         </form>
+                        <div className="register-req">
+                        <div className="register-item-req">
+                                {validEmail ? <FontAwesomeIcon icon={faCircleCheck} /> : <FontAwesomeIcon icon={faCircleXmark} />}
+                                Include a valid email address.
+                            </div>
+                            <div className="register-item-req">
+                                {validUser ? <FontAwesomeIcon icon={faCircleCheck} /> : <FontAwesomeIcon icon={faCircleXmark} />}
+                                Username must be between 3 and 23 characters and comprised of lower case, upper case, and dashes (-).
+                            </div>
+                            <div className="register-item-req">
+                                {validPass ? <FontAwesomeIcon icon={faCircleCheck} /> : <FontAwesomeIcon icon={faCircleXmark} />}
+                                Password must be between 8-24 characters, include at least one upper case character, number, and special character (!@#$%).
+                            </div>
+                            <div className="register-item-req">
+                                {validConf ? <FontAwesomeIcon icon={faCircleCheck} /> : <FontAwesomeIcon icon={faCircleXmark} />}
+                                Password and Password Confirmation must match.
+                            </div>
+                        </div>
                     </section>
+
+                    
                 </>
             )}
         </>

@@ -179,6 +179,30 @@ ul {
   padding-left: 1rem;
 }
 
+.demo-login {
+  font-weight: bold;
+  color: red;
+  background-color: white;
+  border: 4px dashed red;
+  margin: 0 2rem;
+}
+
+.demo-login:hover {
+  color: white;
+  background-color: red;
+  border-style: solid;
+}
+
+.demo-login:hover:disabled {
+  background: grey;
+}
+
+.demo-login:disabled {
+  border-style: solid;
+  border-color: grey;
+  color: darkgray;
+}
+
 .editor-area {
   margin: 20px;
 }
@@ -537,11 +561,24 @@ ul {
 }
 
 .register-area,
-.update-area {
+.update-area,
+.register-req {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+}
+
+.register-req {
+  padding: 25px;
+  border: 1px solid black;
+  align-items:start;
+}
+
+.register-item-req {
+  display: flex;
+  gap: .25rem;
+  align-items: center;
 }
 
 .register-form,

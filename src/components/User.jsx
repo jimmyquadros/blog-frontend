@@ -8,14 +8,17 @@ import { faUserGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 
 const User = () => {
+    const {auth} = useAuth();
+
     const navigate = useNavigate();
     const logout = useLogout();
 
     const signOut = async () => {
+        // console.log('auth before: ', auth)
         navigate('/');
         await logout();
+        // console.log('auth after: ', auth)
     }
-    const {auth} = useAuth();
 
     return (
         <div className='header-user'>
@@ -24,7 +27,7 @@ const User = () => {
             <Link to='/profile'>
                 <FontAwesomeIcon icon={faUserGear} />
             </Link>
-            {auth?.roles?.includes(9000) 
+            {auth?.roles?.includes(9000) || auth?.roles?.includes(1000) 
                 ? (<Link to='/admin'>
                         <FontAwesomeIcon icon={faPenToSquare} />
                     </Link>

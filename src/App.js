@@ -1,7 +1,7 @@
+// import dotenv from 'dotenv';
 import { Routes, Route } from 'react-router';
 import Register from './components/Register';
 import PersistLogin from './components/PersistLogin';
-import Login from './components/Login';
 import Header from './components/Header';
 import Blog from './components/Blog';
 import Profile from './components/Profile';
@@ -25,7 +25,7 @@ function App() {
             <Route path="/profile" element={<Profile />}/>
           </Route>
           
-          <Route element={<RequireAuth allowedRoles={[9000]} />}>
+          <Route element={<RequireAuth allowedRoles={[9000, 1000]} />}>
             <Route path="/admin" element={<Admin />}/>
             <Route path="/editor" element={<PostEditor />} />
           </Route>

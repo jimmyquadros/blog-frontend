@@ -42,7 +42,7 @@ const Paginator = ({setMsg}) => {
         const controller = new AbortController();
         setModal((<Spinner />))
         try {
-            const response = await axiosPrivate.delete(`/post/${id}`, {
+            await axiosPrivate.delete(`/post/${id}`, {
                 signal: controller.signal,
             })
             setMsg(['Post deleted successfully'])
@@ -151,7 +151,6 @@ const Paginator = ({setMsg}) => {
         renderPageIndex();
     }, [posts, pageIndex]);
 
-    
 
     return (
         <div className='paginator-area'>

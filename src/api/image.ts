@@ -1,6 +1,6 @@
 // Modified image component for Tiptap to allow for custom image sizing
 
-import {mergeAttributes, nodeInputRule} from "@tiptap/core";
+import {nodeInputRule} from "@tiptap/core";
 import Image from '@tiptap/extension-image'
 
 export interface ImageOptions {

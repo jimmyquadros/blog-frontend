@@ -1,10 +1,39 @@
 see all posts
-    -- Front page
-        -- register requirements?
     -- Back end
         -- sanitize comments
         -- User delete route
         -- Should login be done through user routes?
+
+-- Update Admin tool button to be read better.
+
+-- Update overall look to be a bit cleaner.
+
+-- Write a readme for each Github repository.
+
+---
+-login on signup 
+-gracefully handle errors on login/demo login
+
+-logout is requiring two clicks? 'logs out' but doesn't update the header;
+
+Do order:
+    X 1. create user with authorization level.
+    X 2. set backend authorization levels
+    X 3. frontend demo login button in header
+    4. if a request is made from tour level handle error gracefully
+    5. disallow user of tour level to submit request (editor: [save, publish, revert, delete], paginator: [delete])
+    6. hide the user update option for tour
+    7. make the admin button more clear
+Demo User
+    -- Create a new authorization level.
+    -- Remove basic user level from the Administrative Tour user (no commenting or updating user details).
+    -- Backend will process get requests from the level/deny post and put requests
+    -- Login to this user via a button on the header.
+    -- Has privledge to see admin page, can access create/edit pages.
+        --Paginator: cannot delete posts, make a notification in the modal on click.
+        --BlogPost: how to have it so that a 'created post' skips axios and displays as local?
+    -- Does not make axios requests
+    -- Cannot update, only create from new.
 
 ---
 
