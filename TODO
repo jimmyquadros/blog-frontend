@@ -14,7 +14,12 @@ see all posts
 -login on signup 
 -gracefully handle errors on login/demo login
 
--logout is requiring two clicks? 'logs out' but doesn't update the header;
+TODO:
+    -All admin notes should have same format/class
+    -places to add modal tour updates to:
+        -editor: save, publish, revert, delete
+        -on successful Tour Login
+    -update admin/user icons
 
 Do order:
     X 1. create user with authorization level.
@@ -22,10 +27,9 @@ Do order:
     X 3. frontend demo login button in header
     4. if a request is made from tour level handle error gracefully
     5. disallow user of tour level to submit request (editor: [save, publish, revert, delete], paginator: [delete])
-    6. hide the user update option for tour
+    X 6. hide the user update option for tour
     7. make the admin button more clear
 Demo User
-    -- Create a new authorization level.
     -- Remove basic user level from the Administrative Tour user (no commenting or updating user details).
     -- Backend will process get requests from the level/deny post and put requests
     -- Login to this user via a button on the header.

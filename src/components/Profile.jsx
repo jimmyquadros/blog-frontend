@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import jwt_decode from 'jwt-decode';
+
+import useModal from '../hooks/useModal';
 
 
 
@@ -13,6 +16,8 @@ const Profile = () => {
 
     const { auth, setAuth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
+    const { setModal } = useModal();
+    const isTour = auth?.roles?.includes(1000);
 
     const [username, setUsername] = useState(auth?.username);
     // const [validUser, setValidUser] = useState(false);
@@ -30,7 +35,18 @@ const Profile = () => {
 
     useEffect(() => {
         setErrMsg([]);
-    },[])
+        if (isTour) {
+            setModal(
+                (
+                    <div className='modal-note'>
+                        <h1>THANK YOU!</h1>
+                        <h4>The tour does not allow for updating this account, please consider <Link to='/register'><span onClick={() => setModal()}>signing up</span></Link> to get the full user experience!</h4>
+                        <button type='button' onClick={() => setModal()}>Close</button>
+                    </div>
+                )
+            )
+        }
+    },[isTour, setModal])
 
     const clearMsg = () => {
         setErrMsg([]);
@@ -120,7 +136,7 @@ const Profile = () => {
                             onChange={(e) => setUsername(e.target.value)}
                             autoComplete="off"
                             value={username}
-                            disabled={isLoading}
+                            disabled={isLoading || isTour}
                         />
                     </div>
                     <div className="update-sub-form">
@@ -131,7 +147,7 @@ const Profile = () => {
                             type="password"
                             id="password"
                             onChange={(e) => setPassword(e.target.value)}
-                            disabled={isLoading}
+                            disabled={isLoading || isTour}
                         />
                         <label htmlFor="passconf">
                             Confirm Password
@@ -140,10 +156,10 @@ const Profile = () => {
                             type="password"
                             id="passconf"
                             onChange={(e) => setConfPass(e.target.value)}
-                            disabled={isLoading}
+                            disabled={isLoading || isTour}
                         />
                     </div>
-                    <button disabled={isLoading ? true : false}>
+                    <button disabled={isLoading || isTour}>
                         Update
                     </button>
                 </form>

@@ -1,4 +1,3 @@
-// import dotenv from 'dotenv';
 import { Routes, Route } from 'react-router';
 import Register from './components/Register';
 import PersistLogin from './components/PersistLogin';
@@ -8,20 +7,24 @@ import Profile from './components/Profile';
 import Admin from './components/Admin';
 import PostEditor from './components/editor/PostEditor';
 import RequireAuth from './components/RequireAuth';
-
 import BlogPost from './components/BlogPost';
+
+import ModalWrap from './components/ModalWrap';
+
 
 function App() {
   
+
   return (
-    <>
+    <ModalWrap>
+      
       <Header />
       <Routes>
 
         <Route path="/" element={<Blog />} />
         <Route path="/register" element={<Register />}/>
         <Route element={<PersistLogin />} >
-          <Route element={<RequireAuth allowedRoles={[5000, 9000]} />}>
+          <Route element={<RequireAuth allowedRoles={[1000, 5000, 9000]} />}>
             <Route path="/profile" element={<Profile />}/>
           </Route>
           
@@ -34,7 +37,7 @@ function App() {
           
         </Route>
       </Routes>
-    </>
+    </ModalWrap>
   )
 }
 

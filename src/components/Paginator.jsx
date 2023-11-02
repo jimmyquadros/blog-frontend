@@ -5,8 +5,8 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Spinner from './Spinner';
-import Modal from './Modal';
-
+import useModal from '../hooks/useModal';
+import useAuth from '../hooks/useAuth';
 
 const LIMIT = 8;
 
@@ -15,7 +15,8 @@ const Paginator = ({setMsg}) => {
     const [posts, setPosts] = useState();
     const [pageIndex, setPageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [modal, setModal] = useState();
+    const { auth } = useAuth();
+    const { setModal } = useModal();
 
     const axiosPrivate = useAxiosPrivate();
 
@@ -56,15 +57,21 @@ const Paginator = ({setMsg}) => {
     }
 
     const renderModal = (post) => {
-        setModal((
-            <div className='modal-content'>
-                <h3>Are you sure you want to delete this file?</h3>
-                <div className='form-submit-right'>
-                    <button onClick={() => handleDeletePost(post._id)}>Delete</button>
-                    <button onClick={() => setModal()}>Cancel</button>
+        return (auth?.roles?.includes(1000)) ? (
+                <div className='modal-note'>
+                    <h2>Cannot Delete Posts On Tour</h2>
+                    <h4>Regular admin privledge would prompt the user if they would like to delete this post before making a delete request.</h4>
+                    <button type='button' onClick={() => setModal()}>Close</button>
                 </div>
-            </div>
-        ))
+            ) : (
+                <div>
+                    <h3>Are you sure you want to delete this file?</h3>
+                    <div className='form-submit-right'>
+                        <button onClick={() => handleDeletePost(post._id)}>Delete</button>
+                        <button onClick={() => setModal()}>Cancel</button>
+                    </div>
+                </div>
+            )
     }
 
     const renderPagination = () => {
@@ -78,7 +85,7 @@ const Paginator = ({setMsg}) => {
             );
             pageItems.push(<div key={`date${i}`}>{DateTime.fromISO(post.updatedAt).toLocaleString(DateTime.DATETIME_MED)}</div>);
             pageItems.push(<div key={`pub${i}`}>{(post.pub) ? 'PUBLISHED': 'UNPUBLISHED'}</div>)
-            pageItems.push(<div key={`del${i}`}><FontAwesomeIcon icon={faTrashCan} onClick={() => renderModal(post) } /></div>)
+            pageItems.push(<div key={`del${i}`}><FontAwesomeIcon icon={faTrashCan} onClick={() => setModal(renderModal()) } /></div>)
         };
         return pageItems;
     }
@@ -154,7 +161,7 @@ const Paginator = ({setMsg}) => {
 
     return (
         <div className='paginator-area'>
-            <Modal content={modal} close={ () => setModal() } />
+            {/* <Modal content={modal} close={ () => setModal() } /> */}
             {isLoading
                 ? ( <Spinner /> ) 
                 : (

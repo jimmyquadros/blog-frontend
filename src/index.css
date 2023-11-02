@@ -43,6 +43,10 @@ input, label {
   margin-bottom: 3px;
 }
 
+input:disabled {
+  background-color: lightgray;
+}
+
 input:focus {
   outline: 1px solid black;
 }
@@ -426,14 +430,17 @@ ul {
 }
 
 .modal-container {
-  position: relative;
-  width: min-content;
-  height: min-content;
+  position: fixed;
+  min-width: 200px;
+  max-width: 400px;
+  min-height: 50px;
+  padding: .5rem;
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   background-color: white;
-  border: 2px solid grey;
+  border-radius: 1rem;
+  filter: drop-shadow(lightgray 0rem 0rem .25rem)
 }
 
 .modal-container-close {
@@ -447,9 +454,11 @@ ul {
 }
 
 .modal-container-content {
-  padding: 0 1rem 1rem 1rem;
-  min-width: 250px;
+  padding: .5rem 1rem 1.5rem 1rem;
+  min-width: 275px;
   min-height: 75px;
+  display: flex;
+  justify-content: center;
 }
 
 .modal-content button:disabled {
@@ -469,6 +478,28 @@ ul {
   z-index: 1;
   display: flex;
   justify-content: center;
+}
+
+.modal-note {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-note>button {
+  align-self: center;
+  margin-top: 1rem;
+}
+
+.modal-note>h1,
+.modal-note>h2 {
+  margin-bottom: .5rem;
+}
+
+.modal-test {
+  background-color: rgb(123, 198, 123);
+  border-radius: .5rem;
+  height: 200px;
+  width: 200px;
 }
 
 .paginator-area {

@@ -5,6 +5,7 @@ import useAuth from "../hooks/useAuth";
 import PersistLogin from "./PersistLogin";
 import { Link } from "react-router-dom";
 import { Routes, Route } from "react-router"
+import useModal from '../hooks/useModal'
 
 const Header = () => {
 
