@@ -11,11 +11,13 @@ see all posts
 -- Write a readme for each Github repository.
 
 ---
+-EDITOR: origin, set to an env variable
+
 -login on signup 
 -gracefully handle errors on login/demo login
 
 TODO:
-    -All admin notes should have same format/class
+    -Swap modal in editor: texteditor
     -places to add modal tour updates to:
         -editor: save, publish, revert, delete
         -on successful Tour Login
