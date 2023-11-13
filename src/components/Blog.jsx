@@ -39,7 +39,6 @@ const Blog = () => {
 
     const getContent = useCallback(async (page) => {
         try {
-            // const response = await axios.get(`/post/?page=${page}&&limit=${LIMIT}`);
             const controller = new AbortController();
             const response = await axiosPrivate.get(`/post/?page=${page}&&limit=${LIMIT}`, {
                 signal: controller.signal
@@ -47,6 +46,7 @@ const Blog = () => {
             const data = response.data;
             getPreview(data.posts[0].pub);
             const section = data.posts.map((post, i) => 
+                !post.pub ? (<></>) :
                 (
                     <li key={`${page}${i}`}>
                         <div className='blog-item'>
@@ -80,6 +80,7 @@ const Blog = () => {
             })
 
         } catch (err) {
+            console.log('ERROR ALERT')
             console.error(err);
         }
     }, [axiosPrivate])

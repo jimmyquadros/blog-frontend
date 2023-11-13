@@ -56,7 +56,7 @@ const Paginator = ({setMsg}) => {
         }
     }
 
-    const renderModal = (post) => {
+    const renderDeleteModal = (post) => {
         return (auth?.roles?.includes(1000)) ? (
                 <div className='modal-note'>
                     <h2>Cannot Delete Posts On Tour</h2>
@@ -85,7 +85,7 @@ const Paginator = ({setMsg}) => {
             );
             pageItems.push(<div key={`date${i}`}>{DateTime.fromISO(post.updatedAt).toLocaleString(DateTime.DATETIME_MED)}</div>);
             pageItems.push(<div key={`pub${i}`}>{(post.pub) ? 'PUBLISHED': 'UNPUBLISHED'}</div>)
-            pageItems.push(<div key={`del${i}`}><FontAwesomeIcon icon={faTrashCan} onClick={() => setModal(renderModal()) } /></div>)
+            pageItems.push(<div key={`del${i}`}><FontAwesomeIcon icon={faTrashCan} onClick={() => setModal(renderDeleteModal()) } /></div>)
         };
         return pageItems;
     }

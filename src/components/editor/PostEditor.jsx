@@ -6,7 +6,6 @@ import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { DateTime } from 'luxon';
 import ImageResize from '../ImageResize';
-import Modal from '../Modal';
 import PostEditorTextMenu from './PostEditorTextMenu';
 import PostEditorSaveMenu from './PostEditorSaveMenu';
 
@@ -16,7 +15,6 @@ const PostEditor = () => {
     const [post, setPost] =  useState(location?.state ? location.state.post : null)
     const [title, setTitle] = useState(location?.state ? location.state.post.title : '');
     const [loading, setLoading] = useState(false);
-    const [modalContent, setModalContent] = useState();
     const [msg, setMsg] = useState();
 
     const editor = useEditor({
@@ -30,9 +28,9 @@ const PostEditor = () => {
             Underline,
             ImageResize,
             Youtube.configure({
-                controls: false,
+                controls: true,
                 enableIFrameApi: 'true',
-                origin: 'http://localhost:3000'
+                origin: process.env.REACT_APP_URL ? process.env.REACT_APP_URL : 'http://localhost:3000'
             }),
         ],
         content: post ? post.draft : 'This is where we write things...',
@@ -44,10 +42,6 @@ const PostEditor = () => {
             setMsg()
         }, 5000);      
     }, [msg])
-
-    const clearModal = () => {
-        setModalContent();
-    }
 
     const toggleLoading = () => {
         setLoading((prev) => !prev);
@@ -88,12 +82,9 @@ const PostEditor = () => {
                         onChange={(e) => setTitle(e.target.value)} />
                 </div>
                 <div className="editor-container">
-                    <Modal content={modalContent} close={clearModal} editor={editor} />
                     <PostEditorTextMenu 
                         editor={editor}
                         loading={loading}
-                        modalClose={clearModal}
-                        modalSet={setModalContent}
                     />
                     <EditorContent editor={editor} />
                     <PostEditorSaveMenu

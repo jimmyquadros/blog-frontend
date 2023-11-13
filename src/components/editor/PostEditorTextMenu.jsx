@@ -1,12 +1,17 @@
-import AddMedia from './modals/AddMedia';
-import AddImage from './modals/AddImage';
+import AddMedia from './AddMedia';
+import AddImage from './AddImage';
+import useModal from '../../hooks/useModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBold, faItalic, faUnderline, faList, faListOl, faImage } from '@fortawesome/free-solid-svg-icons';
 
-const PostEditorTextMenu = ({ editor, loading, modalClose, modalSet }) => {
+const PostEditorTextMenu = ({ editor, loading }) => {
+    
+    const { setModal } = useModal();
+
     if (!editor) {
         return null;
     };
+
 
     return (
         <div className={loading ? 'editor-menu editor-loading' : 'editor-menu'}>
@@ -81,10 +86,10 @@ const PostEditorTextMenu = ({ editor, loading, modalClose, modalSet }) => {
             </button>
           </div>
           <div className='editor-menu-group'>
-            <button type='button' disabled={loading} onClick={(e) => modalSet(<AddImage editor={editor} close={modalClose} />)}>
+            <button type='button' disabled={loading} onClick={(e) => setModal(<AddImage editor={editor} />)}>
                 <FontAwesomeIcon icon={faImage}/>
             </button>
-            <button type='button' disabled={loading} onClick={ (e) => modalSet(<AddMedia editor={editor} close={modalClose} />)}>
+            <button type='button' disabled={loading} onClick={ (e) => setModal(<AddMedia editor={editor} />)}>
                 YouTube
             </button>
           </div>

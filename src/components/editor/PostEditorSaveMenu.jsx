@@ -107,7 +107,7 @@ const PostEditorSaveMenu = ({ editor, loading, post, setMsg, setPost, title, tog
         }
         toggleLoading();
         const response = await saveRequest(data, post?._id);
-        if (response.status === 200 || 201) { 
+        if (response.status === 200 || response.status === 201) { 
             setPost(response.data)
             setMsg((<li key={'ok'} className='editor-msg-ok'>Saved...</li>))
         }

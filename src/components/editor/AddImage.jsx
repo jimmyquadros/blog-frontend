@@ -1,24 +1,23 @@
 import { useState } from 'react';
+import useModal from '../../hooks/useModal';
 
-const AddMedia = ({editor, close}) => {
+const AddImage = ({editor}) => {
     
+    const { setModal } = useModal();
     const [url, setUrl] = useState('');
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(640);
+    const [alt, setAlt] = useState('');
 
-    const addYoutubeVideo = async () => {
-        const h = Number(height)
-        const w = Number(width);
-        editor.commands.setYoutubeVideo({
-            src: url,
-            height: (h !== 0) ? h
-                : (w !== 0) ? (w * (9/16)) : 480,
-            width: (w !== 0) ? w
-                : (h !== 0) ? (h * (16/9)) : 640,
-        })
-        close();
+
+    const addImage = (data) => {
+        editor.commands.setImage({ 
+            src: url, 
+            height: (height === 0) ? 'auto' : height, 
+            width: (width === 0) ? 'auto' : width, 
+            alt, })
     }
-
+    
     return (
         <div className='modal-content'>
             <form action="">
@@ -53,17 +52,23 @@ const AddMedia = ({editor, close}) => {
                         />
                     </div>
                 </div>
+                <label htmlFor="media-alt">Alt Text:</label>
+                <input 
+                    type="text"
+                    name="media-alt"
+                    id="media-alt"
+                    onChange={(e) => setAlt(e.target.value)}
+                />
                 <div className="form-submit-right">
-                    <button onClick={(e) => {
-                        e.preventDefault();
-                        addYoutubeVideo();
-                        close()
+                    <button type='button' onClick={() => {
+                        addImage()
+                        setModal();
                     }}>add</button>
-                    <button onClick={(e) => close(e)}>close</button>
+                    <button type='button' onClick={() => setModal()}>close</button>
                 </div>
             </form>
         </div>
     )
 }
 
-export default AddMedia;
+export default AddImage;
