@@ -7,6 +7,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Spinner from './Spinner';
 import useModal from '../hooks/useModal';
 import useAuth from '../hooks/useAuth';
+import useError from '../hooks/useError';
 
 const LIMIT = 8;
 
@@ -17,10 +18,12 @@ const Paginator = ({setMsg}) => {
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
     const { setModal } = useModal();
+    const { setErr } = useError();
 
     const axiosPrivate = useAxiosPrivate();
 
     const handleGetPosts = async() => {
+        setErr([])
         let isMounted = true;
         setIsLoading(true);
         const controller = new AbortController();
@@ -31,7 +34,8 @@ const Paginator = ({setMsg}) => {
             isMounted && setPosts(response.data);
             setIsLoading(false)
         } catch (err) {
-            console.error('error!');
+            setIsLoading(false)
+            setErr(err.response.data.message);
         }
         return () => {
             isMounted = false;
@@ -40,6 +44,7 @@ const Paginator = ({setMsg}) => {
     }
 
     const handleDeletePost = async (id) => {
+        setErr([]);
         const controller = new AbortController();
         setModal((<Spinner />))
         try {
@@ -50,7 +55,7 @@ const Paginator = ({setMsg}) => {
             setModal();
             handleGetPosts();
         } catch (err) {
-            setMsg(['Failed to delete post'])
+            setErr(err.response.data.message);
             setModal();
             return;
         }
@@ -85,7 +90,7 @@ const Paginator = ({setMsg}) => {
             );
             pageItems.push(<div key={`date${i}`}>{DateTime.fromISO(post.updatedAt).toLocaleString(DateTime.DATETIME_MED)}</div>);
             pageItems.push(<div key={`pub${i}`}>{(post.pub) ? 'PUBLISHED': 'UNPUBLISHED'}</div>)
-            pageItems.push(<div key={`del${i}`}><FontAwesomeIcon icon={faTrashCan} onClick={() => setModal(renderDeleteModal()) } /></div>)
+            pageItems.push(<div key={`del${i}`}><FontAwesomeIcon icon={faTrashCan} onClick={() => setModal(renderDeleteModal(post)) } /></div>)
         };
         return pageItems;
     }

@@ -6,6 +6,7 @@ import PersistLogin from "./PersistLogin";
 import { Link } from "react-router-dom";
 import { Routes, Route } from "react-router"
 import useModal from '../hooks/useModal'
+import { ErrorProvider } from '../context/ErrorProvider';
 
 const Header = () => {
 
@@ -17,13 +18,17 @@ const Header = () => {
                 <h1>Blog Name</h1>
             </Link>
 
-            {!auth && (<DemoLogin />)}
+            <ErrorProvider>
+                {!auth && (<DemoLogin />)}
+            </ErrorProvider>
 
-            <Routes>
-                <Route element={<PersistLogin />}>
-                    <Route path='/*' element={auth ? (<User />) : (<Login />)} />
-                </Route>
-            </Routes>
+            <ErrorProvider>
+                <Routes>
+                    <Route element={<PersistLogin />}>
+                        <Route path='/*' element={auth ? (<User />) : (<Login />)} />
+                    </Route>
+                </Routes>
+            </ErrorProvider>
         </div>
     )
 }

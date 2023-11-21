@@ -2,18 +2,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../Spinner';
-
+import useError from '../../hooks/useError';
 import useModal from '../../hooks/useModal';
 import { useDeleteRequest, useSaveRequest } from '../../api/postRequest.js';
 
-const PostEditorSaveMenu = ({ editor, loading, post, setMsg, setPost, title, toggleLoading }) => {
+const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoading }) => {
 
+    const {setErr} = useError();
     const {setModal} = useModal();
     const deleteRequest = useDeleteRequest();
     const navigate = useNavigate();
     const saveRequest = useSaveRequest();
-
-    
 
     const handleDeleteModal = () => {
         return setModal((
@@ -38,8 +37,9 @@ const PostEditorSaveMenu = ({ editor, loading, post, setMsg, setPost, title, tog
         const response = await deleteRequest(post?._id);
         if (response.status === 204) {
             return navigate('/admin', { replace: true });
+        } else {
+            return setErr(response.error)
         }
-        return setMsg(response.error.map((e, i) => (<li key={`err${i}`} className='editor-msg-err'>{e}</li>)))
     }
 
     const handlePubModal = () => {
@@ -109,11 +109,9 @@ const PostEditorSaveMenu = ({ editor, loading, post, setMsg, setPost, title, tog
         const response = await saveRequest(data, post?._id);
         if (response.status === 200 || response.status === 201) { 
             setPost(response.data)
-            setMsg((<li key={'ok'} className='editor-msg-ok'>Saved...</li>))
         }
         else {
-            const err = response.error.map((e, i) => (<li key={`err${i}`} className='editor-msg-err'>{e}</li>))
-            setMsg(err);
+            setErr(response.error);
         }
         toggleLoading();
     }

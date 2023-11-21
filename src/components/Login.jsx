@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
+import useError from '../hooks/useError'
 import useInput from '../hooks/useInput';
 
 const LOGIN_URL = '/user/login';
 
 const Login = ({addEmail}) => {
     const { setAuth } = useAuth();
+    const { setErr } = useError();
 
     const [email, setEmail, emailAttribs] = useInput('email', '');
     const [password, setPassword] = useState('');
-    const [errorMsg, setErrorMsg] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const toggleLoading = () => {
@@ -26,6 +27,7 @@ const Login = ({addEmail}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErr([]);
         toggleLoading();
         try {
             const response = await axios.post(
@@ -41,52 +43,45 @@ const Login = ({addEmail}) => {
             await setAuth({ username, roles, accessToken})
 
         } catch (err) {
-            if (err.response.status !== 401) console.log('Login Error: ', err.response.status);
-            setErrorMsg(err.response.data.message)
+            setErr(err.response.data.message);
             toggleLoading();
         }
     }
 
     return (
-        <>
-            <section className='login-area'>
-                <form className={addEmail ? 'login-form login-col' : 'login-form'} onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor='email'>Email</label>
-                        <input 
-                            type="email"
-                            id="email"
-                            {...emailAttribs}
-                            autoComplete="off"
+        <section className='login-area'>
+            <form className={addEmail ? 'login-form login-col' : 'login-form'} onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor='email'>Email</label>
+                    <input 
+                        type="email"
+                        id="email"
+                        {...emailAttribs}
+                        autoComplete="off"
+                        required
+                        disabled={isLoading}
+                    />
+                </div>
+                <div>
+                <label htmlFor='password'>Password</label>
+                    <input 
+                            type="password"
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                             required
                             disabled={isLoading}
-                        />
-                    </div>
-                    <div>
-                    <label htmlFor='password'>Password</label>
-                        <input 
-                                type="password"
-                                id="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                value={password}
-                                required
-                                disabled={isLoading}
-                        />
-                    </div>
-                    <button disabled={isLoading}>Log In</button>
-                </form>
-                {(!addEmail) && (
-                    <p>
-                        New user? &nbsp;
-                        <Link to='/register'>Sign Up</Link>
-                    </p>
-                )}
-                <ul className='error-list'>
-                    {errorMsg.map((e, i) => (<li key={i}>{e}</li>))}
-                </ul>
-            </section>
-            
-        </>
+                    />
+                </div>
+                <button disabled={isLoading}>Log In</button>
+            </form>
+            {(!addEmail) && (
+                <p>
+                    New user? &nbsp;
+                    <Link to='/register'>Sign Up</Link>
+                </p>
+            )}
+        </section>
     )
 }
 

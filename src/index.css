@@ -56,6 +56,7 @@ button {
   background-color: black;
   border: none;
   padding: 5px 8px;
+  white-space: nowrap;
 }
 
 button:disabled {
@@ -72,15 +73,21 @@ ul {
 }
 
 .admin-container {
-  margin: 2rem;
+  margin: 2rem 0 2rem 0;
+  width: 65vw;
+  min-width: 450px;
+  
 }
 
 .blog-area {
   height: 100%;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .blog-area>ul {
-  margin: 3rem 20%;
+  /* margin: 3rem 20%; */
+  width: 65vw;
 }
 
 .blog-area a {
@@ -91,10 +98,21 @@ ul {
   color: gray;
 }
 
+.blog-item {
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  margin-top: 2rem;
+}
+
 .blog-header {
   margin: 1rem 0;
   padding-bottom: 1rem;
   border-bottom: 2px solid black;
+}
+
+.blog-post>.error-provider {
+  width: 100%;
 }
 
 .btn-right {
@@ -116,12 +134,23 @@ ul {
   justify-content: center;
 }
 
-.blog-post-area {
-  margin: 3rem 20%;
+.blog-post-container {
+  margin: 2rem 0 2rem 0;
+  height: 100%;
+  width: 65vw;
 }
 
 .blog-prev{
   margin: .5rem 1rem;
+}
+
+.comment-container {
+  width: 100%;
+}
+
+.comment-container>.error-provider {
+  margin-left: 1rem;
+  width: 100%;
 }
 
 .comment-container>ul {
@@ -129,9 +158,17 @@ ul {
   margin-top: 2rem;
 }
 
+.comment-container>ul>li>.error-provider {
+  width: 100%;
+}
+
 .comment-content,
 .comment-control{
   padding-left: .5rem;
+}
+
+.comment-content>.error-provider {
+  width: 100%;
 }
 
 .comment-control {
@@ -160,6 +197,10 @@ ul {
   margin: 0;
 }
 
+.comment-delete-container>.error-provider {
+  width: 100%;
+}
+
 .comment-deleted {
   color: gray;
 }
@@ -169,8 +210,16 @@ ul {
   margin: 1rem 2rem .5rem 2rem;
 }
 
-.comment-login {
-  margin-left: 1rem;
+.comment-editor-container {
+  width: 100%;
+}
+
+.comment-editor-container>.error-provider {
+  width: 100%;
+}
+
+.comment-item>.error-provider {
+  width: 100%;
 }
 
 .comment-login h2 {
@@ -207,6 +256,10 @@ ul {
   color: darkgray;
 }
 
+.demo-login-container {
+  width: min-content;
+}
+
 .editor-area {
   margin: 20px;
 }
@@ -225,7 +278,8 @@ ul {
 }
 
 .editor-form {
-  width: 1000px;
+  width: 75vw;
+  min-width: 450px;
 }
 
 /* .editor-comment-box>.ProseMirror {
@@ -244,6 +298,14 @@ ul {
   padding-top: 1rem;
 }
 
+.editor-comment-box {
+  width: 100%;
+}
+
+.editor-comment-box>div {
+  width: 100%;
+}
+
 .editor-comment-buttons {
   display: flex;
   justify-content: flex-end;
@@ -257,12 +319,12 @@ ul {
   position: relative;
 }
 
-@media (max-width: 1050px) {
+/* @media (max-width: 1050px) {
   .editor-form {
     width: 90%;
     min-width: 500px;
   }
-}
+} */
 
 .editor-info {
   display: grid;
@@ -338,6 +400,25 @@ ul {
 
 .editor-post {
   height: 15rem;
+}
+
+.error-provider {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+}
+
+.error-provider>ul>li {
+  color: red;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.error-provider>ul>li:hover {
+  background-color: rgb(254, 242, 242);
 }
 
 .error-area {
@@ -449,6 +530,15 @@ ul {
   align-self: end;
 }
 
+.main-view {
+  display: flex;
+  justify-content: center;
+}
+
+/* .main-view>.error-provider {
+  width: 100%;
+} */
+
 .modal-container {
   position: fixed;
   min-width: 200px;
@@ -528,8 +618,7 @@ ul {
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* min-width: 500px; */
-  min-height: 325px;
+  min-height: 5rem;
 }
 
 .paginator-list {
@@ -620,6 +709,10 @@ ul {
   margin-top: 20px;
 }
 
+.register-area {
+  width: 65vw;
+}
+
 .register-req {
   padding: 25px;
   border: 1px solid black;
@@ -680,6 +773,14 @@ ul {
   }
 }
 
+.update-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.update-form>button {
+  align-self: flex-end;
+}
 
 .update-sub-form {
   margin: 5px;

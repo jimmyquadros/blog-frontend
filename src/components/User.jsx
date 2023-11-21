@@ -1,23 +1,21 @@
 import useLogout from '../hooks/useLogout';
 import useAuth from '../hooks/useAuth';
+import useError from '../hooks/useError.js';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 
 const User = () => {
     const {auth} = useAuth();
-
+    const {setErr} = useError();
     const navigate = useNavigate();
     const logout = useLogout();
 
     const signOut = async () => {
-        // console.log('auth before: ', auth)
         navigate('/');
         await logout();
-        // console.log('auth after: ', auth)
     }
 
     return (

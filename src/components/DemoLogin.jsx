@@ -2,17 +2,19 @@ import {useState} from 'react';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import jwt_decode from 'jwt-decode';
-
+import useError from '../hooks/useError'
 
 const DemoLogin = () => {
 
     const { setAuth } = useAuth();
+    const { setErr } = useError();
 
     const [isLoading, setIsLoading] = useState(false);
-    const toggleLoading = (prevState) => setIsLoading(!prevState);
+    const toggleLoading = () => setIsLoading(prevState => !prevState);
 
     const handleLogin = async () => {
         toggleLoading();
+        setErr([]);
         try {
             const response = await axios.post(
                 process.env.REACT_APP_LOGIN_URL,
@@ -29,13 +31,15 @@ const DemoLogin = () => {
             const { roles, username } = jwt_decode(accessToken);
             await setAuth({ username, roles, accessToken});
         } catch (err) {
-            console.log('Demo Login Error: ', err)
             toggleLoading();
+            setErr(err.response.data.message);
         }
     }
 
     return (
-        <button type='button' className='demo-login' disabled={isLoading} onClick={() => handleLogin()}>Tour Admin Access!</button>
+        <div className='demo-login-container'>
+            <button type='button' className='demo-login' disabled={isLoading} onClick={() => handleLogin()}>Tour Admin Access!</button>
+        </div>
     )
 }
 

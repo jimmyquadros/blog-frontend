@@ -4,11 +4,13 @@ import axios from '../api/axios';
 import CommentEditor from './editor/CommentEditor';
 import Comment from './Comment';
 import Login from './Login';
-
+import {ErrorProvider} from '../context/ErrorProvider';
+import useError from '../hooks/useError';
 
 const Comments = ({ post }) => {
     const { auth } = useAuth();
-    const [comments, setComments] = useState();
+    const { setErr } = useError();
+    const [comments, setComments] = useState([]);
     const isMounted = useRef(false);
     const scrollCmnt = useRef(null);
 
@@ -18,7 +20,7 @@ const Comments = ({ post }) => {
                 const content = await axios.get(`/comment/${post._id.toString()}`);
                 setComments(content.data);
             } catch (err) {
-                console.error(err);
+                setErr(err.response.data.message);
             }
         })()
     }, [post._id]);
@@ -31,18 +33,25 @@ const Comments = ({ post }) => {
     }, [comments])
 
     const addComment = (cmnt) => {
-        setComments(prev => {return [...prev, cmnt]});
+        console.log('cmnt to add: ', cmnt)
+        setComments([...comments, cmnt[0]]);
     };
 
     return (
         <div className='comment-container'>
             { auth ? (
-                <CommentEditor id={ post._id.toString() } addReply={ addComment } />
-            ) : (
-                <div className='comment-login'>
-                    <h2>Login or register to join leave a comment.</h2>
-                    <Login />
+                <div className='comment-editor-container'>
+                    <ErrorProvider>
+                        <CommentEditor id={ post._id.toString() } addReply={ addComment } />
+                    </ErrorProvider>
                 </div>
+            ) : (
+                <ErrorProvider>
+                    <div className='comment-login'>
+                        <h2>Login or register to join leave a comment.</h2>
+                        <Login />
+                    </div>
+                </ErrorProvider>
             )}
             <ul ref={scrollCmnt}>
                 {!comments?.length ? (
@@ -50,10 +59,11 @@ const Comments = ({ post }) => {
                 ) : (
                     comments.map((cmnt, i) => {
                         return (
-                        <li key={i}>
-                            {i === 0 ? (<></>) : (<div className='comment-divider'></div>)}
-                            <Comment data={cmnt} />
-                        </li>)
+                            <li key={i}>
+                                {i === 0 ? (<></>) : (<div className='comment-divider'></div>)}
+                                <Comment data={cmnt} />
+                            </li>
+                        )
                     })
                 )}
             </ul>

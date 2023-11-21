@@ -12,7 +12,6 @@ const PostEditorTextMenu = ({ editor, loading }) => {
         return null;
     };
 
-
     return (
         <div className={loading ? 'editor-menu editor-loading' : 'editor-menu'}>
           <div className='editor-menu-group'>

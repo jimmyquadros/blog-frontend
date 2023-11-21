@@ -7,6 +7,8 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import ReactTimeAgo from 'react-time-ago';
 import { convert } from 'html-to-text';
 
+import useError from '../hooks/useError';
+
 
 const Blog = () => {
     const LIMIT = 10;
@@ -15,6 +17,8 @@ const Blog = () => {
     const [loadMore, setLoadMore] = useState();
 
     const axiosPrivate = useAxiosPrivate();
+
+    const { setErr } = useError();
    
     const getPreview = (post) => {
         const start = /<p>/.exec(post);
@@ -44,7 +48,7 @@ const Blog = () => {
                 signal: controller.signal
             });
             const data = response.data;
-            getPreview(data.posts[0].pub);
+            if (data.posts.length) getPreview(data.posts[0].pub);
             const section = data.posts.map((post, i) => 
                 !post.pub ? (<></>) :
                 (
@@ -80,8 +84,7 @@ const Blog = () => {
             })
 
         } catch (err) {
-            console.log('ERROR ALERT')
-            console.error(err);
+            setErr(err.response?.data.message ? err.response.data.message : ['Server Error']);
         }
     }, [axiosPrivate])
 
