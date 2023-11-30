@@ -1,22 +1,46 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
-import Comments from './Comments';
 import parse from 'html-react-parser';
 import {DateTime} from 'luxon';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import useError from '../hooks/useError';
 import { ErrorProvider } from '../context/ErrorProvider';
+import useAuth from '../hooks/useAuth';
+import CommentEditor from './editor/CommentEditor';
+import Comment from './Comment';
+import Login from './Login';
 
 const BlogPost = () => {
     const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
+    const { auth } = useAuth();
+    const { setErr } = useError();
+    const scrollRef = useRef(null);
+    const [comments, setComments] = useState([]);
+    const [isMounted, setIsMounted] = useState(false);
     const [post, setPost] = useState(location?.state?.post ? location.state.post : null);
 
-    const { setErr } = useError();
+    useEffect(() => {
+        if (!isMounted) return setIsMounted(true);
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+    }, [comments, isMounted])
+
+    useEffect(() => {
+        getComments();
+    }, [])
+
+    const getComments = async (id) => {
+        try {
+            const content = await axios.get(`post/comments/${post._id.toString()}`);
+            setComments(content.data);
+        } catch (err) {
+            setErr(err.response.data.message);
+        }
+    }
 
     useEffect(() => {
         if (!post) {
@@ -29,7 +53,7 @@ const BlogPost = () => {
                 }
             })()
         }
-    }, [post, params.id])
+    }, [post, params.id, setErr])
 
     const handleNavigate = useCallback((url) => {
         navigate(url, {replace: true, state: {post}})
@@ -49,12 +73,40 @@ const BlogPost = () => {
                     <h1>{post.title}</h1>
                     <div className='blog-header'>
                         <div> published by {post.user.name} on {DateTime.fromISO(post.pubDate).toLocaleString(DateTime.DATE_MED)}</div>
-                        <div><FontAwesomeIcon icon={faMessage} size='xs' />&nbsp;{post.cmntCount ? post.cmntCount : '0'}</div>
                     </div>
                     {parse(post.pub)}
                     <div className='thick-break'></div>
                     <ErrorProvider>
-                        <Comments post={post} />
+                        <div className='comment-container'>
+                            { auth ? (
+                                <div className='comment-editor-container'>
+                                    <ErrorProvider>
+                                        <CommentEditor id={ post._id.toString() } addReply={ setComments } />
+                                    </ErrorProvider>
+                                </div>
+                            ) : (
+                                <ErrorProvider>
+                                    <div className='comment-login'>
+                                        <h2>Login or register to join leave a comment.</h2>
+                                        <Login />
+                                    </div>
+                                </ErrorProvider>
+                            )}
+                            <ul>
+                                {!comments?.length ? (
+                                    <h3>There are no comments</h3>
+                                ) : (
+                                    comments.map((cmnt, i) => {
+                                        return (
+                                            <li key={i}>
+                                                {i === 0 ? (<></>) : (<div className='comment-divider'></div>)}
+                                                <Comment data={cmnt} onDelete={getComments} ref={scrollRef} />
+                                            </li>
+                                        )
+                                    })
+                                )}
+                            </ul>
+                        </div>
                     </ErrorProvider>
                 </div>
             )}

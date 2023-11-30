@@ -1,14 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-// import axios from '../api/axios'
 import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import ReactTimeAgo from 'react-time-ago';
 import { convert } from 'html-to-text';
-
 import useError from '../hooks/useError';
-
 
 const Blog = () => {
     const LIMIT = 10;
@@ -86,7 +83,7 @@ const Blog = () => {
         } catch (err) {
             setErr(err.response?.data.message ? err.response.data.message : ['Server Error']);
         }
-    }, [axiosPrivate])
+    }, [axiosPrivate, setErr])
 
     useEffect(() => {
         getContent(0);

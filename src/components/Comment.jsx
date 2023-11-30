@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import parse from 'html-react-parser';
 import ReactTimeAgo from 'react-time-ago';
 import useAuth from '../hooks/useAuth';
@@ -9,48 +9,35 @@ import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 import { ErrorProvider } from '../context/ErrorProvider';
 import useError from '../hooks/useError';
 import { v4 as uuidv4 } from 'uuid'
+import axios from '../api/axios'; 
 
-const Comment = ({ data, remove, comments, setComments, index }, ref) => {
+const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
-    const { setErr } = useError();
     const [btnConf, setBtnConf] = useState(null);
-    const [content, setContent] = useState(data.content);
+    const [commentData, setCommentData] = useState(data);
     const [children, setChildren] = useState(data.children);
+    const [user, setUser] = useState(data.user);
     const [isEdit, setIsEdit] = useState(false);
     const [isReply, setIsReply] = useState(false);
-    const [user, setUser] = useState(data.user);
-    
-    const isMounted = useRef(false);
+    const [isMounted, setIsMounted] = useState(false);
     const scrollRef = useRef(null);
-
-    // useEffect(() => {
-    //   console.log('data: ', data)
-    // })
 
     // Scroll to a comment added after initial comment load
     useEffect(() => {
-        if (isMounted.current) {
-            scrollRef.current?.lastElementChild?.scrollIntoView({behavior: 'smooth', block: 'center'});
+        if (!isMounted) return setIsMounted(true);
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({behavior: 'smooth', block: 'center'});
         }
-        isMounted.current = true;
-    }, [children])
+    }, [children, isMounted])
 
-    const ConfirmDelete = ({ delMethod, isAdmin }) => {
-        const [disable, setDisable] = useState(false);
-        const handleDelete = async () => {
-            setDisable(true);
-            await delMethod();
-            setDisable(false);
-        }
-
-        return (
-          <div className='comment-delete'>
-              <p>{isAdmin ? 'Remove comment and all replies?' : 'Delete comment?'}</p>
-              <button type='button' disabled={disable} onClick={handleDelete}>Delete</button>
-              <button type='button' disabled={disable} onClick={() => setBtnConf(null)}>Cancel</button>
-          </div>
-        )
+    const getChildren = async () => {
+      try {
+        const response = await axios.get(`/comment/${commentData._id.toString()}`);
+        setChildren(response.data[0].children);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     const UserDelete = () => {
@@ -59,26 +46,21 @@ const Comment = ({ data, remove, comments, setComments, index }, ref) => {
       const handleDelete = async () => {
         try {
           setDisable(true);
-          const prompt = (auth.username === user.name) ? 'comment deleted by user' : 'comment removed by moderator'
-          const response = await axiosPrivate.put(`/comment/${data._id.toString()}`, {user: false, content: prompt})
-
+          const prompt = (auth.username === commentData.user.name) ? 'comment deleted by user' : 'comment removed by moderator'
+          const response = await axiosPrivate.put(`/comment/${commentData._id.toString()}`, {user: false, content: prompt})
+          setCommentData(response.data);
+          setUser(null);
           setBtnConf(null);
-          return setComments([
-            ...comments.slice(0, index),
-            response.data,
-            ...comments.slice(index + 1)
-          ]);
         } catch (err) {
             setDisable(false);
             setErr(err.response.data.message);
         }
       }
-
       return (
         <div className='comment-delete'>
           <p>Delete Comment?</p>
-          <button type='button' type='button' disabled={disable} onClick={handleDelete}>Delete</button>
-          <button type='button' type='button' disabled={disable} onClick={() => setBtnConf(null)}>Cancel</button>
+          <button type='button' disabled={disable} onClick={handleDelete}>Delete</button>
+          <button type='button' disabled={disable} onClick={() => setBtnConf(null)}>Cancel</button>
         </div>
       )
     }
@@ -89,75 +71,65 @@ const Comment = ({ data, remove, comments, setComments, index }, ref) => {
       const handleDelete = async () => {
         try {
           setDisable(true);
-          await axiosPrivate.delete(`/comment/${data._id.toString()}`);
-          setBtnConf(null);
-          return setComments(
-            [
-              ...comments.slice(0, index),
-              ...comments.slice(index + 1)
-            ]
-          );
+          await axiosPrivate.delete(`/comment/${commentData._id}`);
+          await onDelete();
         } catch (err) {
             setDisable(false);
             setErr(err.response.data.message);
         }
       }
-
       return (
         <div className='comment-delete'>
           <p>Remove comment and all replies?</p>
-          <button type='button' type='button' disabled={disable} onClick={handleDelete}>Delete</button>
-          <button type='button' type='button' disabled={disable} onClick={() => setBtnConf(null)}>Cancel</button>
+          <button type='button' disabled={disable} onClick={handleDelete}>Delete</button>
+          <button type='button' disabled={disable} onClick={() => setBtnConf(null)}>Cancel</button>
         </div>
       )
     }
 
-    const handleAddComment = (cmnt) => {
-        setChildren([...children, cmnt[0]]);
-    }
-
     return (
-        <div className='comment-item'>
+        <div className='comment-item' ref={ref}>
           { (user) ? (<h3>{user.name}</h3>) : (<h3 className='comment-deleted'>deleted</h3>)}
           <div className='comment-date'> 
-            <ReactTimeAgo date={Date.parse(data.createdAt)}/>
+            <ReactTimeAgo date={Date.parse(commentData.createdAt)}/>
           </div>
           {isEdit ? (
               <ErrorProvider>
                 <CommentEditor 
                   cancel={() => setIsEdit(false)} 
-                  edit={{content, update: setContent}} 
-                  id={data._id.toString()} 
-                  addReply={handleAddComment} />
+                  edit={{content: commentData.content, update: setCommentData}} 
+                  id={commentData._id.toString()} 
+                  />
               </ErrorProvider>
             ) : (
               <div className='comment-content'>
-                {parse(content)}
+                {parse(commentData.content)}
                 {isReply ? (
                   <ErrorProvider>
                     <CommentEditor 
                       cancel={() => setIsReply(false)} 
-                      id={data.root} 
-                      parent={ data._id }
-                      addReply={ handleAddComment } />
+                      id={commentData.root} 
+                      parent={ commentData._id }
+                      addReply={setChildren}
+                      />
                     </ErrorProvider>
                 ) : (
                   <ErrorProvider>
                     {!btnConf ? (
                       <div className='comment-control'>
-                          { user && (
+                          { auth && user && (
                               <button
                               type='button'
                               onClick={() => setIsReply(true)}>Reply</button>
                           )}
-                          {(auth?.username === user?.name) && (
+                          {(auth?.username === user?.name) && user && (
                               <div>
                                   <button
                                     type='button'
                                     onClick={() => {setIsEdit(true)}}>Edit</button>
                               </div>
                           )}
-                          {((auth?.username === user?.name) || (auth?.roles?.includes(9000))) && (
+                          {((auth?.username === commentData.user?.name) || (auth?.roles?.includes(9000))) && user && (
                               <div>
                                   <button
                                     type='button'
@@ -189,13 +161,13 @@ const Comment = ({ data, remove, comments, setComments, index }, ref) => {
             {children.map((cmnt, i) => (
                 <li key={uuidv4()}>
                   <div className='comment-divider'></div>
-                  <Comment data={cmnt} comments={children} setComments={setChildren} index={i} />
+                  <Comment data={cmnt} onDelete={getChildren} ref={scrollRef} />
                 </li>
             ))}
           </ul>
         </div>
       </div>
     )
-}
+})
 
 export default Comment

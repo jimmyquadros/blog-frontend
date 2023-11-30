@@ -5,6 +5,9 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import Spinner from '../Spinner';
 import useError from '../../hooks/useError';
 
+import axios from '../../api/axios'; 
+
+
 const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
     const axiosPrivate = useAxiosPrivate();
     const { setErr } = useError();
@@ -32,7 +35,7 @@ const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
         if (edit) {
             try {
                 const updatedComment = await axiosPrivate.put(`/comment/${id}`, data);
-                edit.update(updatedComment.data.content);
+                edit.update(updatedComment.data);
                 cancel();
             } catch (err) {
                 toggleLoading();
@@ -42,12 +45,10 @@ const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
         } else {
             try {
                 data.root = id;
-                console.log('Parent: ', parent)
                 if (parent) data.parent = parent;
-                console.log('data: ', data)
-                const postedComment = await axiosPrivate.post(`/comment/`, data);
-                console.log('postedComment: ', postedComment);
-                addReply(postedComment.data);
+                await axiosPrivate.post(`/comment/`, data);
+                const comments = await axios.get(parent ? `/comment/${parent}` : `/post/comments/${id}`);
+                addReply(parent ? comments.data[0].children : comments.data);
                 if (cancel) cancel()
                 else {
                     toggleLoading();

@@ -1,9 +1,7 @@
 // Context for components with wrapped error reporting
-
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-
 
 const ErrorContext = createContext(null);
 
