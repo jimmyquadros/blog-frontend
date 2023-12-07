@@ -1,3 +1,5 @@
+// Component to handle user log-in
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';

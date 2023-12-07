@@ -1,4 +1,5 @@
 // Context for components with wrapped error reporting
+
 import { createContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';

@@ -1,18 +1,32 @@
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useDeleteRequest, useSaveRequest } from '../../api/postRequest.js';
 import Spinner from '../Spinner';
+import useAuth from '../../hooks/useAuth';
 import useError from '../../hooks/useError';
 import useModal from '../../hooks/useModal';
-import { useDeleteRequest, useSaveRequest } from '../../api/postRequest.js';
 
 const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoading }) => {
 
+    const {auth} = useAuth();
     const {setErr} = useError();
     const {setModal} = useModal();
     const deleteRequest = useDeleteRequest();
     const navigate = useNavigate();
     const saveRequest = useSaveRequest();
+
+    const TourModal = () => {
+        return (
+            <div className='modal-note'>
+                <h1>Not Authorized</h1>
+                <p>Thank you for touring the admin features.</p> 
+                <p>Unfortunately, the administrative tour is not authorized to commit any changes. Hopefully the experience has given you insight as to how this page works.</p>
+                <p>For more information please consider viewing the <a href="https://github.com/jimmyquadros/blog-frontend">repository</a>.</p>
+                <button type='button' onClick={() => setModal()}>Close</button>
+            </div>
+        )
+    }
 
     const handleDeleteModal = () => {
         return setModal((
@@ -20,13 +34,13 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
                 <span>Delete this post?</span>
                 <div className='form-submit-right'>
                     <button type='button' onClick={ async () => {
+                        if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
                         setModal(<Spinner />);
                         toggleLoading();                
                         await handleDeleteRequest()
                         toggleLoading();
                         setModal();
                     }}>Delete</button>
-                        
                     <button type='button' onClick={() => setModal()}>Cancel</button>
                 </div>
             </div>
@@ -34,6 +48,7 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
     }
 
     const handleDeleteRequest = async () => {
+        setErr([]);
         const response = await deleteRequest(post?._id);
         if (response.status === 204) {
             return navigate('/admin', { replace: true });
@@ -51,6 +66,7 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
                     <button 
                         type='button' 
                         onClick={ async () => {
+                            if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
                             setModal(<Spinner />);
                             const content = editor.getHTML();
                             await handleSaveRequest({ title, draft: content, pub: content })
@@ -61,6 +77,7 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
                         type='button'
                         disabled={!post?.pub}
                         onClick={ async () => {
+                            if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
                             setModal(<Spinner />)
                             await handleSaveRequest({ pub: false })
                             setModal();
@@ -80,12 +97,14 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
                 <div className='form-submit-col'>
                     <button type='button' 
                         onClick={() => {
+                            if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
                             editor.commands.setContent(post.draft)
                             setModal();
                         }} 
                         disabled={(post) ? false : true}>Saved Draft</button>
                     <button type='button' 
                         onClick={() => {
+                            if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
                             editor.commands.setContent(post.pub)
                             setModal();
                         }} 
@@ -97,6 +116,8 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
     }
 
     const handleSaveRequest = async (data) => {
+        setErr([]);
+        if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
         if (title === '') {
             return setModal((
                 <>

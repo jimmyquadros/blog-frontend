@@ -1,26 +1,36 @@
+// Paginator component for administrative viewing of all articles
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Spinner from './Spinner';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useModal from '../hooks/useModal';
 import useAuth from '../hooks/useAuth';
 import useError from '../hooks/useError';
 
-const LIMIT = 8;
+const LIMIT = 8; // number of items displayed on page
 
 const Paginator = ({setMsg}) => {
 
-    const [posts, setPosts] = useState();
-    const [pageIndex, setPageIndex] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
+    const axiosPrivate = useAxiosPrivate();
     const { auth } = useAuth();
     const { setModal } = useModal();
     const { setErr } = useError();
 
-    const axiosPrivate = useAxiosPrivate();
+    const [posts, setPosts] = useState();
+    const [pageIndex, setPageIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        handleGetPosts();
+    }, [pageIndex])
+
+    useEffect(() => {
+        renderPageIndex();
+    }, [posts, pageIndex]);
 
     const handleGetPosts = async() => {
         setErr([])
@@ -57,7 +67,6 @@ const Paginator = ({setMsg}) => {
         } catch (err) {
             setErr(err.response.data.message);
             setModal();
-            return;
         }
     }
 
@@ -86,7 +95,6 @@ const Paginator = ({setMsg}) => {
             const post = posts.posts[i];
             pageItems.push(
                 <div key={`name${i}`}><Link to='/editor' state={{ post }} >{post.title}</Link></div>
-                
             );
             pageItems.push(<div key={`date${i}`}>{DateTime.fromISO(post.updatedAt).toLocaleString(DateTime.DATETIME_MED)}</div>);
             pageItems.push(<div key={`pub${i}`}>{(post.pub) ? 'PUBLISHED': 'UNPUBLISHED'}</div>)
@@ -155,18 +163,8 @@ const Paginator = ({setMsg}) => {
         return pages;
     }
 
-    useEffect(() => {
-        handleGetPosts();
-    }, [pageIndex])
-
-    useEffect(() => {
-        renderPageIndex();
-    }, [posts, pageIndex]);
-
-
     return (
         <div className='paginator-area'>
-            {/* <Modal content={modal} close={ () => setModal() } /> */}
             {isLoading
                 ? ( <Spinner /> ) 
                 : (

@@ -1,3 +1,5 @@
+// Text editor component for creating/editing blog posts
+
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { EditorContent, useEditor } from '@tiptap/react';
@@ -5,15 +7,15 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { DateTime } from 'luxon';
+import { ErrorProvider } from '../../context/ErrorProvider';
 import ImageResize from '../ImageResize';
 import PostEditorTextMenu from './PostEditorTextMenu';
 import PostEditorSaveMenu from './PostEditorSaveMenu';
 
-import { ErrorProvider } from '../../context/ErrorProvider';
-
-
 const PostEditor = () => {
+    
     const location = useLocation();
+
     const [post, setPost] =  useState(location?.state ? location.state.post : null)
     const [title, setTitle] = useState(location?.state ? location.state.post.title : '');
     const [loaded, setLoaded] = useState(false);
@@ -45,7 +47,7 @@ const PostEditor = () => {
             return setLoaded(true);
         }
         setMsg('saved...')
-    }, [loaded, post, setMsg])
+    }, [post, setMsg])
 
     useEffect(() => {
         if (!msg) return;

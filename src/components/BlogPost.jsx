@@ -1,23 +1,27 @@
+// Component for displaying individual blog posts, reply options, and child comments
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
 import parse from 'html-react-parser';
 import {DateTime} from 'luxon';
-import useError from '../hooks/useError';
+import axios from '../api/axios';
 import { ErrorProvider } from '../context/ErrorProvider';
+import useError from '../hooks/useError';
 import useAuth from '../hooks/useAuth';
 import CommentEditor from './editor/CommentEditor';
 import Comment from './Comment';
 import Login from './Login';
 
 const BlogPost = () => {
+
     const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const { auth } = useAuth();
     const { setErr } = useError();
     const scrollRef = useRef(null);
+
     const [comments, setComments] = useState([]);
     const [isMounted, setIsMounted] = useState(false);
     const [post, setPost] = useState(location?.state?.post ? location.state.post : null);

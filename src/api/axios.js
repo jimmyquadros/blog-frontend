@@ -1,3 +1,5 @@
+// Axios http request helper functions
+
 import axios from 'axios';
 
 // 'https://famous-crab-frock.cyclic.cloud'; 

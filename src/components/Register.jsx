@@ -1,3 +1,5 @@
+// Component to handle the registration of new users
+
 import { useState, useEffect } from "react";
 import axios from '../api/axios';
 import useError from '../hooks/useError'
@@ -155,8 +157,5 @@ const Register = () => {
             </section>
         )
     }
-    
-    
-
 
 export default Register;

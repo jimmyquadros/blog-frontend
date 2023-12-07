@@ -1,19 +1,24 @@
+// Comment component which handles management of all child comments
+
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import parse from 'html-react-parser';
 import ReactTimeAgo from 'react-time-ago';
-import useAuth from '../hooks/useAuth';
-import CommentEditor from './editor/CommentEditor';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 import { ErrorProvider } from '../context/ErrorProvider';
-import useError from '../hooks/useError';
 import { v4 as uuidv4 } from 'uuid'
 import axios from '../api/axios'; 
+import useAuth from '../hooks/useAuth';
+import useError from '../hooks/useError';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import CommentEditor from './editor/CommentEditor';
+
 
 const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     const axiosPrivate = useAxiosPrivate();
+    const scrollRef = useRef(null);
     const { auth } = useAuth();
+    const { setErr } = useError();
     const [btnConf, setBtnConf] = useState(null);
     const [commentData, setCommentData] = useState(data);
     const [children, setChildren] = useState(data.children);
@@ -21,7 +26,6 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     const [isEdit, setIsEdit] = useState(false);
     const [isReply, setIsReply] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const scrollRef = useRef(null);
 
     // Scroll to a comment added after initial comment load
     useEffect(() => {
@@ -41,8 +45,8 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     }
 
     const UserDelete = () => {
+      setErr([]);
       const [disable, setDisable] = useState(false);
-      const { setErr } = useError();
       const handleDelete = async () => {
         try {
           setDisable(true);
@@ -66,8 +70,8 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     }
 
     const AdminDelete = () => {
+      setErr([]);
       const [disable, setDisable] = useState(false);
-      const { setErr } = useError();
       const handleDelete = async () => {
         try {
           setDisable(true);

@@ -1,8 +1,10 @@
+// Menu for font, image/video import for text editor
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBold, faItalic, faUnderline, faList, faListOl, faImage } from '@fortawesome/free-solid-svg-icons';
 import AddMedia from './AddMedia';
 import AddImage from './AddImage';
 import useModal from '../../hooks/useModal'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBold, faItalic, faUnderline, faList, faListOl, faImage } from '@fortawesome/free-solid-svg-icons';
 
 const PostEditorTextMenu = ({ editor, loading }) => {
     

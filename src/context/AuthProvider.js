@@ -1,3 +1,5 @@
+// Context holder for user authorization
+
 import { createContext, useState } from 'react';
 
 const AuthContext = createContext({});

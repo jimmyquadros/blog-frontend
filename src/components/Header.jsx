@@ -1,11 +1,13 @@
+// Container componenet for top header bar
+
+import { Link } from "react-router-dom";
+import { Routes, Route } from "react-router"
+import { ErrorProvider } from '../context/ErrorProvider';
 import DemoLogin from "./DemoLogin";
 import Login from "./Login";
 import User from "./User";
 import useAuth from "../hooks/useAuth";
 import PersistLogin from "./PersistLogin";
-import { Link } from "react-router-dom";
-import { Routes, Route } from "react-router"
-import { ErrorProvider } from '../context/ErrorProvider';
 
 const Header = () => {
 

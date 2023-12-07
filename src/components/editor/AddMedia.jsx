@@ -1,3 +1,5 @@
+// Menu component for the addition of Youtube videos to blog posts
+
 import { useState } from 'react';
 import useModal from '../../hooks/useModal';
 import Spinner from '../Spinner';

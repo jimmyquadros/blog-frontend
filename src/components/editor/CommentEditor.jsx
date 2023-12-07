@@ -1,16 +1,18 @@
+// Text editor for comment posts
+
 import { useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import axios from '../../api/axios'; 
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import Spinner from '../Spinner';
 import useError from '../../hooks/useError';
 
-import axios from '../../api/axios'; 
-
-
 const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
+
     const axiosPrivate = useAxiosPrivate();
     const { setErr } = useError();
+
     const [loading, setLoading] = useState(false);
 
     const toggleLoading = () => {
@@ -30,6 +32,7 @@ const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
     });
 
     const handlePost = async () => {
+        setErr([]);
         toggleLoading()
         const data = { content: editor.getHTML() };
         if (edit) {

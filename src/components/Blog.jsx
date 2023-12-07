@@ -1,22 +1,24 @@
+// Componenet for main display of all blog posts
+
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import ReactTimeAgo from 'react-time-ago';
 import { convert } from 'html-to-text';
+import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
 import useError from '../hooks/useError';
 
 const Blog = () => {
-    const LIMIT = 10;
-    const MAX_PREV_CHAR = 450;
+    const LIMIT = 10; // Number of posts loaded at a time
+    const MAX_PREV_CHAR = 450; // Number of character to display in preview
+    
+    const axiosPrivate = useAxiosPrivate();
+    const { setErr } = useError();
+
     const [content, setContent] = useState([]);
     const [loadMore, setLoadMore] = useState();
 
-    const axiosPrivate = useAxiosPrivate();
-
-    const { setErr } = useError();
-   
     const getPreview = (post) => {
         const start = /<p>/.exec(post);
         const end = /<\/p>/.exec(post);

@@ -1,10 +1,12 @@
+// Component for updating user profile
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
-import jwt_decode from 'jwt-decode';
 import useModal from '../hooks/useModal';
 import useError from '../hooks/useError';
+import jwt_decode from 'jwt-decode';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -30,8 +32,11 @@ const Profile = () => {
             setModal(
                 (
                     <div className='modal-note'>
-                        <h1>THANK YOU!</h1>
-                        <h4>The tour does not allow for updating this account, please consider <Link to='/register'><span onClick={() => setModal()}>signing up</span></Link> to get the full user experience!</h4>
+                        <h1>Not Authorized</h1>
+                        <p>Thank you for touring the admin features.</p> 
+                        <p>Unfortunately, the administrative tour is not authorized to commit any changes. Hopefully the experience has given you insight as to how this page works.</p>
+                        <p>Please consider <Link to='/register'><span onClick={() => setModal()}>signing up</span></Link> to get the full user experience!</p>
+                        <p>For more information please consider viewing the <a href="https://github.com/jimmyquadros/blog-frontend">repository</a>.</p>
                         <button type='button' onClick={() => setModal()}>Close</button>
                     </div>
                 )

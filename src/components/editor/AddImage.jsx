@@ -1,3 +1,5 @@
+// Menu component for the addition of image elements to blog posts
+
 import { useState } from 'react';
 import useModal from '../../hooks/useModal';
 
@@ -8,7 +10,6 @@ const AddImage = ({editor}) => {
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(640);
     const [alt, setAlt] = useState('');
-
 
     const addImage = (data) => {
         editor.commands.setImage({ 

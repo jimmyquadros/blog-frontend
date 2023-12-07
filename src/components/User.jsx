@@ -1,3 +1,5 @@
+// Display component for logged in users
+
 import useLogout from '../hooks/useLogout';
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
@@ -7,6 +9,7 @@ import { faGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 
 const User = () => {
+    
     const {auth} = useAuth();
     const navigate = useNavigate();
     const logout = useLogout();

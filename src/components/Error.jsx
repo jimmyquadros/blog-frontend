@@ -1,3 +1,5 @@
+// Page not found component
+
 const Error = () => {
     return (
         <div className='error-area'>

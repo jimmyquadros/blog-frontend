@@ -2,9 +2,9 @@
 // Any component sent to the modal context will be rendered within modal
 
 import {useEffect, useState} from 'react';
-import useModal from '../hooks/useModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import useModal from '../hooks/useModal';
 
 const ModalWrap = ({children}) => {
 
