@@ -19,7 +19,6 @@ function App() {
       <div className='main-view'>
         <ErrorProvider top={true}>
           <Routes>
-
             <Route path="/" element={<Blog />} />
             <Route path="/register" element={<Register />}/>
             <Route element={<PersistLogin />} >

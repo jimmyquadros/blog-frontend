@@ -12,7 +12,12 @@ import ImageResize from '../ImageResize';
 import PostEditorTextMenu from './PostEditorTextMenu';
 import PostEditorSaveMenu from './PostEditorSaveMenu';
 
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+
 const PostEditor = () => {
+
+    const axiosPrivate = useAxiosPrivate();
+
     
     const location = useLocation();
 
@@ -59,6 +64,33 @@ const PostEditor = () => {
     const toggleLoading = () => {
         setLoading((prev) => !prev);
     };
+
+    const saveRequest = async() => {
+        console.log('calling...')
+        // const controller = new AbortController();
+        try {
+            const response = (post?._id)
+                ? await axiosPrivate.put(`/post/${post._id}`, JSON.stringify({title, draft: editor.getHTML()}))
+                : await axiosPrivate.post('/post', JSON.stringify({title, draft: editor.getHTML()}));
+            return {
+                status: response.status,
+                data: response.data
+            }
+        } catch (err) {
+            if (!err.response) {
+                return {
+                    status: 500,
+                    error: ['No server response'],
+                }
+            } else {
+                return {
+                    status: err.response.status,
+                    error: err.response.data?.message || [err.response.data] 
+                }
+            }
+        }
+    }
+       
 
     return (
         <section className="editor-area">
@@ -108,6 +140,7 @@ const PostEditor = () => {
                                 setPost={setPost}
                                 title={title}
                                 toggleLoading={toggleLoading}
+                                save={saveRequest}
                             />
                         </div>
                         <ul className='editor-msg-list'>{msg}</ul>

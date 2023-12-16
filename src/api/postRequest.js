@@ -27,11 +27,12 @@ export const useDeleteRequest = () => {
 
 export const useSaveRequest = () => {
     const axiosPrivate = useAxiosPrivate();
+    // const controller = new AbortController();
     const saveRequest = async(data, id) => {
         try {
             const response = (id)
-                ? await axiosPrivate.put(`/post/${id}`, JSON.stringify(data))
-                : await axiosPrivate.post('/post', JSON.stringify(data));
+                ? await axiosPrivate.put(`/post/${id}`, JSON.stringify(data),)
+                : await axiosPrivate.post('/post', JSON.stringify(data),);
             return {
                 status: response.status,
                 data: response.data

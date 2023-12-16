@@ -176,6 +176,10 @@ ul {
   gap: 3px;
 }
 
+.comment-control-container>.error-provider {
+  width: 100%;
+}
+
 .comment-date {
   font-style:italic;
   font-size: .75rem;

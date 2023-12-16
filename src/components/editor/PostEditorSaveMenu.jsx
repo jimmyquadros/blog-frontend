@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useDeleteRequest, useSaveRequest } from '../../api/postRequest.js';
 import Spinner from '../Spinner';
+import TourModal from '../TourModal';
 import useAuth from '../../hooks/useAuth';
 import useError from '../../hooks/useError';
 import useModal from '../../hooks/useModal';
 
-const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoading }) => {
+const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoading, }) => {
 
     const {auth} = useAuth();
     const {setErr} = useError();
@@ -16,18 +17,7 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
     const navigate = useNavigate();
     const saveRequest = useSaveRequest();
 
-    const TourModal = () => {
-        return (
-            <div className='modal-note'>
-                <h1>Not Authorized</h1>
-                <p>Thank you for touring the admin features.</p> 
-                <p>Unfortunately, the administrative tour is not authorized to commit any changes. Hopefully the experience has given you insight as to how this page works.</p>
-                <p>For more information please consider viewing the <a href="https://github.com/jimmyquadros/blog-frontend">repository</a>.</p>
-                <button type='button' onClick={() => setModal()}>Close</button>
-            </div>
-        )
-    }
-
+  
     const handleDeleteModal = () => {
         return setModal((
             <div className='modal-content'>
@@ -140,7 +130,7 @@ const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoadi
     return (
         <div className={loading ? 'editor-menu editor-loading' : 'editor-menu'}>
             <div className='editor-menu-group editor-menu-bottom'>
-                <button type='button' disabled={loading} onClick={() =>  handleSaveRequest({title, draft: editor.getHTML()})}>
+                <button type='button' disabled={loading} onClick={() => handleSaveRequest({title, draft: editor.getHTML()})}>
                     <FontAwesomeIcon icon={faFloppyDisk} />
                 </button>
                 <div className='editor-menu-group'>

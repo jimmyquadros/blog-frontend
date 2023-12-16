@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Spinner from './Spinner';
+import TourModal from './TourModal';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useModal from '../hooks/useModal';
 import useAuth from '../hooks/useAuth';
@@ -72,11 +73,7 @@ const Paginator = ({setMsg}) => {
 
     const renderDeleteModal = (post) => {
         return (auth?.roles?.includes(1000)) ? (
-                <div className='modal-note'>
-                    <h2>Cannot Delete Posts On Tour</h2>
-                    <h4>Regular admin privledge would prompt the user if they would like to delete this post before making a delete request.</h4>
-                    <button type='button' onClick={() => setModal()}>Close</button>
-                </div>
+                <TourModal />
             ) : (
                 <div>
                     <h3>Are you sure you want to delete this file?</h3>

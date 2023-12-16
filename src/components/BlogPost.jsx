@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import {DateTime} from 'luxon';
+import { v4 as uuidv4 } from 'uuid'
 import axios from '../api/axios';
 import { ErrorProvider } from '../context/ErrorProvider';
 import useError from '../hooks/useError';
@@ -26,15 +27,25 @@ const BlogPost = () => {
     const [isMounted, setIsMounted] = useState(false);
     const [post, setPost] = useState(location?.state?.post ? location.state.post : null);
 
-    useEffect(() => {
-        if (!isMounted) return setIsMounted(true);
-        if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-        }
-    }, [comments, isMounted])
+    // TESTING
+    // useEffect(() => {
+    //     console.log('TOP LEVEL: RENDER')
+    // }, [])
+
+    // useEffect(() => {
+    //     console.log(`TOP LEVEL: Update comments...`)
+    // }, [comments])
 
     useEffect(() => {
+        console.log('BLOGPOST: scrolling to ref...')
+        if (isMounted && scrollRef.current) {
+            scrollRef.current.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+    }, [comments])
+
+    useEffect(() =>  {
         getComments();
+        if (!isMounted) return setIsMounted(true);
     }, [])
 
     const getComments = async (id) => {
@@ -102,7 +113,7 @@ const BlogPost = () => {
                                 ) : (
                                     comments.map((cmnt, i) => {
                                         return (
-                                            <li key={i}>
+                                            <li key={uuidv4()}>
                                                 {i === 0 ? (<></>) : (<div className='comment-divider'></div>)}
                                                 <Comment data={cmnt} onDelete={getComments} ref={scrollRef} />
                                             </li>

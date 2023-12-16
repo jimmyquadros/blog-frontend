@@ -2,6 +2,7 @@
 
 import { createContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { v4 as uuidv4 } from 'uuid'
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const ErrorContext = createContext(null);
@@ -26,7 +27,7 @@ export const ErrorProvider = ({children, top}) => {
                 {!top && children}
                 <ul>
                     {err.map((e, i) => (
-                        <li key={`err${i}`}>
+                        <li key={uuidv4()}>
                             {e}
                             <FontAwesomeIcon icon={faXmark} onClick={() => removeErr(i)} />
                         </li>
