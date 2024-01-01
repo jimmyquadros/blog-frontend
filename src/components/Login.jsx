@@ -11,7 +11,7 @@ import useInput from '../hooks/useInput';
 const LOGIN_URL = '/user/login';
 
 const Login = ({addEmail}) => {
-    const { setAuth } = useAuth();
+    const { access, setAuth } = useAuth();
     const { setErr } = useError();
 
     const [email, setEmail, emailAttribs] = useInput('email', '');
@@ -42,7 +42,8 @@ const Login = ({addEmail}) => {
             )
             const accessToken = response?.data.token;
             const { roles, username } = jwt_decode(accessToken);
-            await setAuth({ username, roles, accessToken})
+            await setAuth({ username, roles})
+            access.current = accessToken;
 
         } catch (err) {
             setErr(err.response.data.message);

@@ -60,23 +60,16 @@ const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
             data.root = id;
             if (parent) data.parent = parent;
             await axiosPrivate.post(`/comment/`, data);
-            const comments = await axios.get(parent ? `/comment/${parent}` : `/post/comments/${id}`);
-            // console.log('comment post response: ', comments.data)
-            console.log('comments.data[0].children: ', comments.data[0].children);
-            // addReply(!parent ? comments.data[0].children : comments.data);
-            if (parent) {
-                console.log('reply add')
-                addReply(comments.data[0].children);
-            } else {
-                console.log('root add')
-                addReply(comments.data)
-            }
+            const response = await axios.get(parent ? `/comment/${parent}` : `/post/comments/${id}`);
+            const comments = parent ? response.data[0].children : response.data
+            addReply(comments);
             if (cancel) return cancel()
             else {
                 toggleLoading();
                 editor.commands.setContent('');
             }
         } catch (err) {
+            // console.log('err in handlepost')
             toggleLoading();
             if (!err.response) return setErr(['An Error Occured']);
             return setErr(err.response.data.message)

@@ -3,7 +3,7 @@ import useAuth from './useAuth';
 import useError from './useError';
 
 const useLogout = () => {
-    const { setAuth } = useAuth();
+    const { access, setAuth } = useAuth();
     const { setErr } = useError();
 
     const logout = async () => {
@@ -11,7 +11,9 @@ const useLogout = () => {
             await axios('/user/logout', {
                 withCredentials: true
             });
+            access.current = null;
             setAuth();
+
         } catch(err) {
             setErr(err);
         }

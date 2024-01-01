@@ -1,5 +1,5 @@
 // Context for components with wrapped error reporting
-
+import { useEffect } from 'react';
 import { createContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { v4 as uuidv4 } from 'uuid'
@@ -10,6 +10,11 @@ const ErrorContext = createContext(null);
 export const ErrorProvider = ({children, top}) => {
 
     const [err, setErr] = useState([]);
+
+    // useEffect(() => {
+    //     console.log(err)
+    //     if (!Array.isArray(err)) setErr([err]);
+    // }, [err, setErr])
 
     const removeErr = (i) => {
         if (!Array.isArray()) setErr([]);
@@ -26,12 +31,12 @@ export const ErrorProvider = ({children, top}) => {
             <div className='error-provider'>
                 {!top && children}
                 <ul>
-                    {err.map((e, i) => (
+                    {/* {err.map((e, i) => (
                         <li key={uuidv4()}>
                             {e}
                             <FontAwesomeIcon icon={faXmark} onClick={() => removeErr(i)} />
                         </li>
-                    ))}
+                    ))} */}
                 </ul>
                 {top && children}
             </div>

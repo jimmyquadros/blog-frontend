@@ -25,9 +25,9 @@ const Header = () => {
 
             <ErrorProvider>
                 <Routes>
-                    <Route element={<PersistLogin />}>
-                        <Route path='/*' element={auth ? (<User />) : (<Login />)} />
-                    </Route>
+                    {/* <Route element={<PersistLogin />}> */}
+                    <Route path='/*' element={auth ? (<User />) : (<Login />)} />
+                    {/* </Route> */}
                 </Routes>
             </ErrorProvider>
         </div>

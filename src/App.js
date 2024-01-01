@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Blog />} />
             <Route path="/register" element={<Register />}/>
-            <Route element={<PersistLogin />} >
+            {/* <Route element={<PersistLogin />} > */}
               <Route element={<RequireAuth allowedRoles={[1000, 5000, 9000]} />}>
                 <Route path="/profile" element={<Profile />}/>
               </Route>
@@ -30,7 +30,7 @@ function App() {
                 <Route path="/editor" element={<PostEditor />} />
               </Route>
               <Route path='/:id/:title?' element={<BlogPost />} />
-            </Route>
+            {/* </Route> */}
           </Routes>
         </ErrorProvider>
       </div>

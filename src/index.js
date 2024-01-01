@@ -7,6 +7,8 @@ import en from 'javascript-time-ago/locale/en.json';
 import './index.css';
 import App from './App';
 import { ModalProvider } from './context/ModalProvider';
+import PersistLogin from './components/PersistLogin';
+import {ErrorProvider} from './context/ErrorProvider';
 
 TimeAgo.addDefaultLocale(en);
 const rootElement = document.getElementById('root');
@@ -14,12 +16,16 @@ const root = createRoot(rootElement);
 
 root.render(
     <BrowserRouter>
-      <AuthProvider>
-        <ModalProvider>
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-        </ModalProvider>
-      </AuthProvider>
+      <ErrorProvider>
+        <AuthProvider>
+          <PersistLogin>
+            <ModalProvider>
+              <Routes>
+                <Route path="/*" element={<App />} />
+              </Routes>
+            </ModalProvider>
+          </PersistLogin>
+        </AuthProvider>
+      </ErrorProvider>
     </BrowserRouter>
 );

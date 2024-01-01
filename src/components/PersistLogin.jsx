@@ -6,9 +6,9 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import useRefreshToken from "../hooks/useRefreshToken";
 
 
-const PersistLogin = () => {
+const PersistLogin = ({children}) => {
 
-    const { auth } = useAuth();
+    const { access, setAuth } = useAuth();
     const { setErr } = useError();
     const refresh = useRefreshToken();
 
@@ -20,7 +20,8 @@ const PersistLogin = () => {
         let isMounted = true;
         const verifyRefreshToken = async () => {
             try {
-                await refresh();
+                const data = await refresh();
+                setAuth({ username: data.username, roles: data.roles })
             } catch (err) {
                 setErr(err);                
             } finally {
@@ -28,19 +29,25 @@ const PersistLogin = () => {
             }
         }
 
-        !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+        verifyRefreshToken();
 
-    }, [auth, setErr])
+        // !access ? verifyRefreshToken() : setIsLoading(false);
+
+    }, [])
 
     return (
-        <>
-            {!persist
-                ? <Outlet />
-                :isLoading
-                    ? <p>Loading...</p>
-                    : <Outlet />
-            }
-        </>
+        <div className='persist-login'>
+            {/* <Outlet /> */}
+            {children}
+        </div>
+        // <>
+        //     {!persist
+        //         ? <Outlet />
+        //         :isLoading
+        //             ? <p>Loading...</p>
+        //             : <Outlet />
+        //     }
+        // </>
     )
 }
 

@@ -1,3 +1,14 @@
+XXXXX
+
+    Where/how is auth stored for initial refresh?
+        --JWT is stored in cookie
+    
+    
+
+XXXXX
+
+
+
 see all posts
     -- Back end
         -- sanitize comments

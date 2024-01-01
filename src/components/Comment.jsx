@@ -30,11 +30,18 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     const [isReply, setIsReply] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
+    const [fromEditor, setFromEditor] = useState(null);
+
     //TESTING
+
     // useEffect(() => {
-    //   console.log('prop: data: ', data)
+    //   // console.log('prop: data: ', data)
     //   console.log(`${commentData.content}: RENDERING...`)
     // }, [])
+
+    // useEffect(() => {
+    //   console.log('fromEditor set: ', fromEditor)
+    // }, [fromEditor])
 
     // useEffect(() => {
     //   console.log(`${commentData.content}: Changing isReply...`)
@@ -42,6 +49,10 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
 
     // useEffect(() => {
     //   console.log(`${commentData.content}: Changing children...`)
+    // }, [children])
+
+    // useEffect(() => {
+    //   console.log(`${commentData.content}: Children: `, children)
     // }, [children])
 
     // useEffect(() => {
@@ -131,7 +142,50 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
     }
 
     const handleUpdateChildren = (data) => {
+      console.log('Children updating with: ', data)
       return setChildren(data);
+    }
+
+    const getCommentControl = () => {
+      if (!auth) return (<div className='comment-control'></div>)
+      const isUser = (auth?.username === user?.name);
+      const isAdmin = (auth?.roles?.includes(9000));
+      return (
+        <div className='comment-control'>
+          {user && (
+              <button
+                type='button'
+                onClick={() => setIsReply(true)}>Reply</button>
+          )}
+          {isUser && (
+              <div>
+                <button
+                  type='button'
+                  onClick={() => {setIsEdit(true)}}>Edit</button>
+              </div>
+          )}
+          {(isUser || isAdmin) && user && (
+              <div>
+                <button
+                  type='button'
+                  onClick={() => {
+                    setErr([]);
+                    setBtnConf(<UserDelete />)}}>Delete</button>
+              </div>
+          )}
+          {isAdmin && (
+            <button
+                className='comment-delete-admin'
+                type='button'
+                onClick={() => {
+                  setErr([]);
+                  setBtnConf(<AdminDelete />)}}>
+              <FontAwesomeIcon icon={faUserGear} /> 
+              DELETE
+            </button>
+          )}
+        </div> 
+      )
     }
 
     return (
@@ -156,46 +210,46 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
                     cancel={() => {setIsReply(false)}} 
                     id={commentData.root} 
                     parent={ commentData._id }
-                    addReply={handleUpdateChildren}
+                    addReply={ setChildren }
                   />
                 ) : (
                   <div className='comment-control-container'>
-                    {!btnConf ? (
-                      <div className='comment-control'>
-                          { auth && user && (
-                              <button
-                                type='button'
-                                onClick={() => setIsReply(true)}>Reply</button>
-                          )}
-                          {(auth?.username === user?.name) && user && (
-                              <div>
-                                <button
-                                  type='button'
-                                  onClick={() => {setIsEdit(true)}}>Edit</button>
-                              </div>
-                          )}
-                          {((auth?.username === commentData.user?.name) || (auth?.roles?.includes(9000))) && user && (
-                              <div>
-                                  <button
-                                    type='button'
-                                    onClick={() => {
-                                      setErr([]);
-                                      setBtnConf(<UserDelete />)}}>Delete</button>
-                              </div>
-                          )}
-                          {auth?.roles?.includes(9000) && (
-                              <button
-                                  className='comment-delete-admin'
-                                  type='button'
-                                  onClick={() => {
-                                    setErr([]);
-                                    setBtnConf(<AdminDelete />)}}>
-                                <FontAwesomeIcon icon={faUserGear} /> 
-                                DELETE
-                              </button>
-                          )}
-                      </div> 
-                    ) : (
+                    {!btnConf ? getCommentControl() :
+                      // <div className='comment-control'>
+                      //     { auth && user && (
+                      //         <button
+                      //           type='button'
+                      //           onClick={() => setIsReply(true)}>Reply</button>
+                      //     )}
+                      //     {(auth?.username === user?.name) && user && (
+                      //         <div>
+                      //           <button
+                      //             type='button'
+                      //             onClick={() => {setIsEdit(true)}}>Edit</button>
+                      //         </div>
+                      //     )}
+                      //     {((auth?.username === commentData.user?.name) || (auth?.roles?.includes(9000))) && user && (
+                      //         <div>
+                      //             <button
+                      //               type='button'
+                      //               onClick={() => {
+                      //                 setErr([]);
+                      //                 setBtnConf(<UserDelete />)}}>Delete</button>
+                      //         </div>
+                      //     )}
+                      //     {auth?.roles?.includes(9000) && (
+                      //         <button
+                      //             className='comment-delete-admin'
+                      //             type='button'
+                      //             onClick={() => {
+                      //               setErr([]);
+                      //               setBtnConf(<AdminDelete />)}}>
+                      //           <FontAwesomeIcon icon={faUserGear} /> 
+                      //           DELETE
+                      //         </button>
+                      //     )}
+                      // </div> 
+                    (
                       <ErrorProvider>
                         <div className='comment-delete-container'>
                           {btnConf}

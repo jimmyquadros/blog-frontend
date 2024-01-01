@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
+// import axios from '../api/axios';
+
 
 const User = () => {
     
@@ -16,6 +18,7 @@ const User = () => {
 
     const signOut = async () => {
         navigate('/');
+        // const loggedOut = await axios.post('/user/logout/')
         await logout();
     }
 
