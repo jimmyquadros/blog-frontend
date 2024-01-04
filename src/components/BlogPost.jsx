@@ -15,51 +15,31 @@ import Comment from './Comment';
 import Login from './Login';
 
 const BlogPost = () => {
-
     const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const { auth } = useAuth();
     const { setErr } = useError();
     const scrollRef = useRef(null);
-
-    // const [isLoggedIn, setIsLoggedIn] = useState(auth);
-
     const [comments, setComments] = useState([]);
     const [isMounted, setIsMounted] = useState(false);
     const [post, setPost] = useState(location?.state?.post ? location.state.post : null);
 
     const displayComments = useMemo(() => {
         return [...comments]
-    }, [comments])
-
-    // TESTING
-    // useEffect(() => {
-    //     console.log('TOP LEVEL: RENDER')
-    // }, [])
-
-    // useEffect(() => {
-    //     console.log(`TOP LEVEL: Update comments...`)
-    // }, [comments])
-
-    // useEffect(() => {
-    //     // console.log('BLOGPOST: scrolling to ref...')
-    //     if (isMounted && scrollRef.current) {
-    //         scrollRef.current.scrollIntoView({behavior: 'smooth', block: 'center'});
-    //     }
-    // }, [comments])
+    }, [comments]);
 
     useEffect(() =>  {
         getComments();
         if (!isMounted) return setIsMounted(true);
-    }, [])
+    }, []);
 
     const getComments = async (id) => {
         try {
             const content = await axios.get(`post/comments/${post._id.toString()}`);
             setComments(content.data);
         } catch (err) {
-            // setErr(err.response.data.message);
+            setErr(err.response.data.message);
         }
     }
 
@@ -99,7 +79,7 @@ const BlogPost = () => {
                     <div className='thick-break'></div>
                     <ErrorProvider>
                         <div className='comment-container'>
-                            {/* { auth ? (
+                            { auth ? (
                                 <div className='comment-editor-container'>
                                     <ErrorProvider>
                                         <CommentEditor id={ post._id.toString() } addReply={ setComments } />
@@ -112,12 +92,7 @@ const BlogPost = () => {
                                         <Login />
                                     </div>
                                 </ErrorProvider>
-                            )} */}
-                            <div className='comment-editor-container'>
-                                <ErrorProvider>
-                                    <CommentEditor id={ post._id.toString() } addReply={ setComments } />
-                                </ErrorProvider>
-                            </div>
+                            )}
                             <ul>
                                 {!comments?.length ? (
                                     <h3>There are no comments</h3>

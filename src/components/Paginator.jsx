@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { v4 as uuidv4 } from 'uuid'
 import Spinner from './Spinner';
 import TourModal from './TourModal';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -39,7 +40,7 @@ const Paginator = ({setMsg}) => {
         setIsLoading(true);
         const controller = new AbortController();
         try {
-            const response = await axiosPrivate.get(`/post/?page=${pageIndex}&&limit=${LIMIT}`, {
+            const response = await axiosPrivate.get(`/post/private/?page=${pageIndex}&&limit=${LIMIT}`, {
                 signal: controller.signal
             });
             isMounted && setPosts(response.data);
@@ -91,7 +92,7 @@ const Paginator = ({setMsg}) => {
         for (let i = 0; i < posts.posts.length; i++) {
             const post = posts.posts[i];
             pageItems.push(
-                <div key={`name${i}`}><Link to='/editor' state={{ post }} >{post.title}</Link></div>
+                <div key={uuidv4()}><Link to='/editor' state={{ post }} >{post.title}</Link></div>
             );
             pageItems.push(<div key={`date${i}`}>{DateTime.fromISO(post.updatedAt).toLocaleString(DateTime.DATETIME_MED)}</div>);
             pageItems.push(<div key={`pub${i}`}>{(post.pub) ? 'PUBLISHED': 'UNPUBLISHED'}</div>)

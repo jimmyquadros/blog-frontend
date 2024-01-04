@@ -52,7 +52,7 @@ const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
     }
 
     const handlePost = async () => {
-        setErr([]);
+        // setErr([]);
         if (auth?.roles?.includes(1000)) return setModal(<TourModal />);
         toggleLoading()
         const data = { content: editor.getHTML() };
@@ -69,7 +69,6 @@ const CommentEditor = ({ cancel, edit, id, parent, addReply }) => {
                 editor.commands.setContent('');
             }
         } catch (err) {
-            // console.log('err in handlepost')
             toggleLoading();
             if (!err.response) return setErr(['An Error Occured']);
             return setErr(err.response.data.message)

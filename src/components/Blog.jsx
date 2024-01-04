@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import ReactTimeAgo from 'react-time-ago';
 import { convert } from 'html-to-text';
+import { v4 as uuidv4 } from 'uuid'
 import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
 import useError from '../hooks/useError';
 
@@ -15,7 +16,6 @@ const Blog = () => {
     
     const axiosPrivate = useAxiosPrivate();
     const { setErr } = useError();
-
     const [content, setContent] = useState([]);
     const [loadMore, setLoadMore] = useState();
 
@@ -31,14 +31,12 @@ const Blog = () => {
                 return toText.slice(0, seek);
             }
         }
-        
         return '';
     }
 
     const getPostURL = (id, title) => {
         return `/${id.concat('/', title.replaceAll(' ', '-'))}`.toLowerCase();
     }
-
 
     const getContent = useCallback(async (page) => {
         try {
@@ -47,11 +45,10 @@ const Blog = () => {
                 signal: controller.signal
             });
             const data = response.data;
-            if (data.posts.length) getPreview(data.posts[0].pub);
             const section = data.posts.map((post, i) => 
                 !post.pub ? (<></>) :
                 (
-                    <li key={`${page}${i}`}>
+                    <li key={uuidv4()}>
                         <div className='blog-item'>
                             <Link className='no-deco' to={ getPostURL(post._id, post.title) } state={{ post }}><h1>{post.title}</h1></Link>
                             <div className='blog-info'>
@@ -63,7 +60,6 @@ const Blog = () => {
                                 {getPreview(post.pub)}
                                 &nbsp;
                                 [<Link to={ getPostURL(post._id, post.title) } state={{ post }}>more</Link>]
-
                             </div>
                         </div>
                     </li>
@@ -89,7 +85,7 @@ const Blog = () => {
 
     useEffect(() => {
         getContent(0);
-    }, [getContent]);
+    }, []);
 
 
     return (

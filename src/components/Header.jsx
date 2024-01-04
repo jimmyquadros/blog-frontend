@@ -10,7 +10,6 @@ import useAuth from "../hooks/useAuth";
 import PersistLogin from "./PersistLogin";
 
 const Header = () => {
-
     const { auth } = useAuth();
     
     return (

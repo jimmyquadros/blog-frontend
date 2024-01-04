@@ -7,7 +7,6 @@ import AddImage from './AddImage';
 import useModal from '../../hooks/useModal'
 
 const PostEditorTextMenu = ({ editor, loading }) => {
-    
     const { setModal } = useModal();
 
     if (!editor) {

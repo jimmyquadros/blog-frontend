@@ -7,7 +7,6 @@ import useError from '../hooks/useError';
 import useModal from '../hooks/useModal';
 
 const DemoLogin = () => {
-
     const { setAuth } = useAuth();
     const { setErr } = useError();
     const { setModal } = useModal();

@@ -13,7 +13,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const UPDATE_URL = '/user'
 
 const Profile = () => {
-
     const { auth, setAuth } = useAuth();
     const { setErr } = useError();
     const { setModal } = useModal();

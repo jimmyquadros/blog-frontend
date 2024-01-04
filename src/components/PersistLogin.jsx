@@ -7,7 +7,6 @@ import useRefreshToken from "../hooks/useRefreshToken";
 
 
 const PersistLogin = ({children}) => {
-
     const { access, setAuth } = useAuth();
     const { setErr } = useError();
     const refresh = useRefreshToken();

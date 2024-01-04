@@ -7,7 +7,6 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import useModal from '../hooks/useModal';
 
 const ModalWrap = ({children}) => {
-
     const {modal, setModal} = useModal();
     const [mod, setMod] = useState((<></>));
 

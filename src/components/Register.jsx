@@ -12,24 +12,17 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/user'
 
 const Register = () => {
-
     const {setErr} = useError();
-
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
-
     const [username, setUsername] = useState('');
     const [validUser, setValidUser] = useState(false);
-
     const [password, setPassword] = useState('');
     const [validPass, setValidPass] = useState(false);
-
     const [confPass, setConfPass] = useState('');
     const [validConf, setValidConf] = useState(false);
-
     const [errMsg, setErrMsg] = useState([]);
     const [success, setSuccess] = useState(null);
-
     const [isLoading, setIsLoading] = useState(false);
 
     const toggleLoading = () => {

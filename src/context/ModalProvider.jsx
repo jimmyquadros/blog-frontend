@@ -5,7 +5,6 @@ import { createContext, useState } from 'react';
 const ModalContext = createContext(false);
 
 export const ModalProvider = ({children}) => {
-
     const [modal, setModal] = useState();
 
     return (

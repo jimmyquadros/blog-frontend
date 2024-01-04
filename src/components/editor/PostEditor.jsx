@@ -11,16 +11,11 @@ import { ErrorProvider } from '../../context/ErrorProvider';
 import ImageResize from '../ImageResize';
 import PostEditorTextMenu from './PostEditorTextMenu';
 import PostEditorSaveMenu from './PostEditorSaveMenu';
-
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const PostEditor = () => {
-
     const axiosPrivate = useAxiosPrivate();
-
-    
     const location = useLocation();
-
     const [post, setPost] =  useState(location?.state ? location.state.post : null)
     const [title, setTitle] = useState(location?.state ? location.state.post.title : '');
     const [loaded, setLoaded] = useState(false);
@@ -66,8 +61,6 @@ const PostEditor = () => {
     };
 
     const saveRequest = async() => {
-        console.log('calling...')
-        // const controller = new AbortController();
         try {
             const response = (post?._id)
                 ? await axiosPrivate.put(`/post/${post._id}`, JSON.stringify({title, draft: editor.getHTML()}))
@@ -90,7 +83,6 @@ const PostEditor = () => {
             }
         }
     }
-       
 
     return (
         <section className="editor-area">

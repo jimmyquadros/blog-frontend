@@ -9,14 +9,12 @@ import useError from '../../hooks/useError';
 import useModal from '../../hooks/useModal';
 
 const PostEditorSaveMenu = ({ editor, loading, post, setPost, title, toggleLoading, }) => {
-
     const {auth} = useAuth();
     const {setErr} = useError();
     const {setModal} = useModal();
     const deleteRequest = useDeleteRequest();
     const navigate = useNavigate();
     const saveRequest = useSaveRequest();
-
   
     const handleDeleteModal = () => {
         return setModal((
