@@ -1,5 +1,6 @@
 // Display component for logged in users
 
+import { useState } from 'react';
 import useLogout from '../hooks/useLogout';
 import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
@@ -11,8 +12,10 @@ const User = () => {
     const {auth} = useAuth();
     const navigate = useNavigate();
     const logout = useLogout();
+    const [isDisable, setIsDisable] = useState(false);
 
     const signOut = async () => {
+        setIsDisable(true);
         navigate('/');
         await logout();
     }
@@ -20,7 +23,7 @@ const User = () => {
     return (
         <div className='header-user'>
             <h2>{auth.username}</h2>
-            <button onClick={signOut}>Log Out</button>
+            <button disabled={isDisable} onClick={signOut}>Log Out</button>
             <Link to='/profile'>
                 <div className='header-user-nav'>
                     <FontAwesomeIcon icon={faGear} />

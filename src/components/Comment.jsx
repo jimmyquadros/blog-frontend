@@ -89,6 +89,7 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
 
     return (
         <div className='comment-item' ref={ref}>
+          <ErrorProvider>
           { (user) ? (<h3>{user.name}</h3>) : (<h3 className='comment-deleted'>deleted</h3>)}
           <div className='comment-date'> 
             <ReactTimeAgo date={Date.parse(commentData.createdAt)}/>
@@ -142,6 +143,13 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
                               }}>Delete</button>
                           </div>
                       )}
+                      <div><button type='button' 
+                        onClick={async () => {
+                          try{
+                            await axios.get(`/post/error/`)
+                          } catch(err) {
+                            setErr(err.response.data)
+                          }}}>ERROR</button></div>
                     </div> 
                   )
                 }           
@@ -157,6 +165,7 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
             ))}
           </ul>
         </div>
+        </ErrorProvider>
       </div>
     )
 })

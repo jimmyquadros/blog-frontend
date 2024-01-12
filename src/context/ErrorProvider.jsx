@@ -12,7 +12,7 @@ export const ErrorProvider = ({children, top}) => {
     const [err, setErr] = useState([]);
 
     // useEffect(() => {
-    //     console.log(err)
+    //     // console.log(err)
     //     if (!Array.isArray(err)) setErr([err]);
     // }, [err, setErr])
 
@@ -31,12 +31,12 @@ export const ErrorProvider = ({children, top}) => {
             <div className='error-provider'>
                 {!top && children}
                 <ul>
-                    {/* {err.map((e, i) => (
+                    {Array.isArray(err) ? err.map((e, i) => (
                         <li key={uuidv4()}>
                             {e}
                             <FontAwesomeIcon icon={faXmark} onClick={() => removeErr(i)} />
                         </li>
-                    ))} */}
+                    )) : (<li key={uuidv4()}>Error...</li>)}
                 </ul>
                 {top && children}
             </div>

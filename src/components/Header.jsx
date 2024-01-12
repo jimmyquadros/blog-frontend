@@ -15,7 +15,7 @@ const Header = () => {
     return (
         <div className="header">
             <Link className='header-logo' to="/">
-                <h1>Blog Name</h1>
+                <h1>Blog About It!</h1>
             </Link>
 
             <ErrorProvider>
