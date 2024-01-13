@@ -16,6 +16,10 @@ export const ErrorProvider = ({children, top}) => {
     //     if (!Array.isArray(err)) setErr([err]);
     // }, [err, setErr])
 
+    // useEffect(() => {
+    //     console.log('Error: ', err)
+    // }, [err])
+
     const removeErr = (i) => {
         if (!Array.isArray()) setErr([]);
         setErr(
