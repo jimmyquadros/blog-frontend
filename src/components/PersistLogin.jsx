@@ -20,8 +20,8 @@ const PersistLogin = ({children}) => {
         const verifyRefreshToken = async () => {
             try {
                 const data = await refresh();
-                console.log('data: ', data)
-                setAuth({ username: data.username, roles: data.roles })
+                // console.log('data: ', data)
+                if (data) setAuth({ username: data.username, roles: data.roles })
             } catch (err) {
                 // console.log(err)
                 setErr(err);                
