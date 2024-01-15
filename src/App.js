@@ -12,7 +12,7 @@ import BlogPost from './components/BlogPost';
 import ModalWrap from './components/ModalWrap';
 
 function App() {
-
+  console.log('DEMO_USER test: ', process.env.DEMO_USER)
   return (
     <ModalWrap>
       <Header />
