@@ -12,7 +12,7 @@ import BlogPost from './components/BlogPost';
 import ModalWrap from './components/ModalWrap';
 
 function App() {
-  console.log('DEMO_USER test: ', process.env.DEMO_USER)
+  console.log('DEMO_USER test: ', process.env.REACT_APP_VERCEL_ENV_DEMO_USER)
   return (
     <ModalWrap>
       <Header />
