@@ -18,6 +18,7 @@ const DemoLogin = () => {
         toggleLoading();
         setErr([]);
         try {
+            console.log(process.env.DEMO_USER)
             const response = await axios.post(
                 process.env.REACT_APP_LOGIN_URL,
                 JSON.stringify({
