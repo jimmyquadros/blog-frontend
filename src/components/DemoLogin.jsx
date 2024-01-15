@@ -21,8 +21,8 @@ const DemoLogin = () => {
             const response = await axios.post(
                 process.env.REACT_APP_LOGIN_URL,
                 JSON.stringify({
-                    email: process.env.REACT_APP_DEMO_USER,
-                    password: process.env.REACT_APP_DEMO_PSWD
+                    email: process.env.DEMO_USER ? process.env.DEMO_USER : process.env.REACT_APP_DEMO_USER,
+                    password: process.env.DEMO_PSWD ? process.env.DEMO_PSWD : process.env.REACT_APP_DEMO_PSWD
                 }),
                 {
                     headers: { 'Content-Type': 'application/json' },
