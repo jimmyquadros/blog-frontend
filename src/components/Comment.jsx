@@ -143,13 +143,6 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
                               }}>Delete</button>
                           </div>
                       )}
-                      <div><button type='button' 
-                        onClick={async () => {
-                          try{
-                            await axios.get(`/post/error/`)
-                          } catch(err) {
-                            setErr(err.response.data)
-                          }}}>ERROR</button></div>
                     </div> 
                   )
                 }           

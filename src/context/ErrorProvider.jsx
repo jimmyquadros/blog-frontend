@@ -21,7 +21,7 @@ export const ErrorProvider = ({children, top}) => {
     // }, [err])
 
     const removeErr = (i) => {
-        if (!Array.isArray()) setErr([]);
+        if (!Array.isArray(err)) return setErr([]);
         setErr(
             [
                 ...err.slice(0, i),
@@ -40,7 +40,11 @@ export const ErrorProvider = ({children, top}) => {
                             {e}
                             <FontAwesomeIcon icon={faXmark} onClick={() => removeErr(i)} />
                         </li>
-                    )) : (<li key={uuidv4()}>Error...</li>)}
+                    )) : (
+                        <li key={uuidv4()}>
+                            Error...
+                            <FontAwesomeIcon icon={faXmark} onClick={() => removeErr()} />
+                        </li>)}
                 </ul>
                 {top && children}
             </div>
