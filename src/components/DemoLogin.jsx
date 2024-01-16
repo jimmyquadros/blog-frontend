@@ -20,7 +20,6 @@ const DemoLogin = () => {
         toggleLoading();
         setErr([]);
         try {
-            console.log(process.env.REACT_APP_DEMO_USER)
             const response = await axios.post(
                 process.env.REACT_APP_LOGIN_URL,
                 JSON.stringify({
@@ -45,6 +44,7 @@ const DemoLogin = () => {
                 </div>
             ))
         } catch (err) {
+            console.log(err);
             toggleLoading();
             setErr(err.response.data.message);
         }
