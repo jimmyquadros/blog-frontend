@@ -116,9 +116,11 @@ const Comment = forwardRef(({ data, toScroll, onDelete }, ref) => {
                   isDelete ? (
                     <div className='comment-delete'>
                       <p>Delete Comment?</p>
-                      {(user && (isUser || isAdmin)) && (<button type='button' disabled={disable} onClick={() => handleUserDelete()}>Delete</button>)}
-                      {isAdmin && (<button className='comment-delete-admin' type='button' disabled={disable} onClick={() => handleAdminDelete()}><FontAwesomeIcon icon={faUserGear} /> DELETE</button>)}
-                      <button type='button' disabled={disable} onClick={() => setIsDelete(null)}>Cancel</button>
+                      <div className='comment-delete-button-box'>
+                        {(user && (isUser || isAdmin)) && (<button type='button' disabled={disable} onClick={() => handleUserDelete()}>Delete</button>)}
+                        {isAdmin && (<button className='comment-delete-admin' type='button' disabled={disable} onClick={() => handleAdminDelete()}><FontAwesomeIcon icon={faUserGear} /> DELETE</button>)}
+                        <button type='button' disabled={disable} onClick={() => setIsDelete(null)}>Cancel</button>
+                      </div>
                     </div>
                   ) : (
                     <div className='comment-control'>

@@ -189,6 +189,11 @@ ul {
   outline: 2px dashed red;
   padding: 1rem;
   display: flex;
+  justify-content: space-between;
+}
+
+.comment-delete-button-box {
+  display: flex;
   gap: 3px;
 }
 
